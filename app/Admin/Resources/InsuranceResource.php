@@ -4,6 +4,7 @@ namespace App\Admin\Resources;
 
 use App\Admin\Resources\InsuranceResource\Pages;
 use App\Enums\InsuranceType;
+use App\Enums\PaymentFrequency;
 use App\Models\Insurance;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -39,12 +40,7 @@ class InsuranceResource extends Resource
                     ->required()
                     ->numeric(),
                 Forms\Components\Select::make('payment_frequency')
-                    ->options([
-                        'monthly' => 'Monthly',
-                        'quarterly' => 'Quarterly',
-                        'half_yearly' => 'Half Yearly',
-                        'yearly' => 'Yearly',
-                    ])
+                    ->options(PaymentFrequency::class)
                     ->required(),
                 Forms\Components\DatePicker::make('start_date')
                     ->native(false)
