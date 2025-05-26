@@ -6,9 +6,9 @@ use Filament\Support\Contracts\HasLabel;
 
 enum TaxSection: string implements HasLabel
 {
-    case eightyC = '80C';
-    case eightyD = '80D';
-    case none = 'None';
+    case EIGHTYC = '80C';
+    case EIGHTYD = '80D';
+    case NONE = 'None';
 
     public function getLabel(): string
     {

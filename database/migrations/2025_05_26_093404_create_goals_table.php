@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('goals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('goal_name');
-            $table->string('goal_type')->nullable();
+            $table->string('name');
+            $table->string('type')->nullable();
             $table->integer('target_amount');
             $table->integer('saved_amount')->default(0);
             $table->date('target_date')->nullable();

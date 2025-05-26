@@ -6,17 +6,17 @@ use App\Admin\Resources\InvestmentResource\Pages;
 use App\Enums\InvestmentMode;
 use App\Enums\InvestmentType;
 use App\Enums\PaymentFrequency;
+use App\Enums\TaxSection;
 use App\Models\Investment;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\RawJs;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class InvestmentResource extends Resource
@@ -29,39 +29,33 @@ class InvestmentResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('provider')
-                    ->maxLength(255),
-                Grid::make(3)->schema([
-                    Select::make('investment_type')
-                        ->options(InvestmentType::class)
-                        ->required(),
-                    Select::make('mode')
-                        ->options(InvestmentMode::class)
-                        ->required(),
-                    Select::make('frequency')
-                        ->options(PaymentFrequency::class)
-                        ->required(),
-                ]),
-                TextInput::make('account_no')
-                    ->maxLength(255),
-                TextInput::make('amount_invested')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('current_value')
-                    ->maxLength(255),
-                TextInput::make('expected_return_rate')
-                    ->numeric(),
-                DatePicker::make('start_date')
-                    ->required(),
-                DatePicker::make('maturity_date'),
-                Toggle::make('is_active')
-                    ->default(true)
-                    ->required(),
-                RichEditor::make('note')
-                    ->columnSpanFull(),
+                TextInput::make('name')->required()->maxLength(255),
+                TextInput::make('provider')->required()->maxLength(255),
+                Select::make('investment_type')->options(InvestmentType::class)->required(),
+                Select::make('mode')->options(InvestmentMode::class)->required(),
+                Select::make('frequency')->options(PaymentFrequency::class)->required(),
+                Select::make('tax_section')->options(TaxSection::class)->required()->default(TaxSection::NONE),
+                Select::make('risk_level')->options([
+                    'low' => 'Low',
+                    'medium' => 'Medium',
+                    'high' => 'High',
+                ])->default('medium'),
+                TextInput::make('account_no')->maxLength(255),
+                TextInput::make('amount_invested')->required()->mask(RawJs::make('$money($input)'))
+                    ->prefixIcon('heroicon-o-currency-rupee')
+                    ->stripCharacters(',')->numeric(),
+                TextInput::make('current_value')->mask(RawJs::make('$money($input)'))
+                    ->prefixIcon('heroicon-o-currency-rupee')
+                    ->stripCharacters(',')->numeric(),
+                TextInput::make('expected_return_rate')->numeric()->suffix('%'),
+                DatePicker::make('start_date')->required(),
+                DatePicker::make('maturity_date')->native(false),
+                Select::make('goal_id')->relationship('goal', 'name')
+                    ->preload()->searchable(),
+                TagsInput::make('tags')->placeholder('Add tags')
+                    ->columnSpanFull()
+                    ->helperText('Use enter to separate tags.'),
+                RichEditor::make('note')->columnSpanFull(),
             ]);
     }
 
@@ -69,38 +63,47 @@ class InvestmentResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('investment_type')
+                Tables\Columns\TextColumn::make('investment_type')
                     ->searchable(),
-                TextColumn::make('name')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('provider')
+                Tables\Columns\TextColumn::make('provider')
                     ->searchable(),
-                TextColumn::make('account_no')
+                Tables\Columns\TextColumn::make('account_no')
                     ->searchable(),
-                TextColumn::make('amount_invested')
+                Tables\Columns\TextColumn::make('amount_invested')
                     ->searchable(),
-                TextColumn::make('current_value')
+                Tables\Columns\TextColumn::make('current_value')
                     ->searchable(),
-                TextColumn::make('expected_return_rate')
+                Tables\Columns\TextColumn::make('expected_return_rate')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('start_date')
+                Tables\Columns\TextColumn::make('start_date')
                     ->date()
                     ->sortable(),
-                TextColumn::make('maturity_date')
+                Tables\Columns\TextColumn::make('maturity_date')
                     ->date()
                     ->sortable(),
-                TextColumn::make('mode')
+                Tables\Columns\TextColumn::make('mode')
                     ->searchable(),
-                TextColumn::make('frequency')
+                Tables\Columns\TextColumn::make('frequency')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
-                TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('tax_section')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('risk_level')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('goal_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\IconColumn::make('is_auto_trackable')
+                    ->boolean(),
+                Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

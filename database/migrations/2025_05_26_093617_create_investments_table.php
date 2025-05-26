@@ -15,9 +15,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('provider')->nullable();
             $table->string('account_no')->nullable();
-            $table->string('amount_invested');
-            $table->string('current_value')->nullable();
-            $table->decimal('expected_return_rate')->nullable();
+            $table->integer('amount_invested');
+            $table->integer('current_value')->nullable();
+            $table->integer('expected_return_rate')->nullable();
             $table->date('start_date');
             $table->date('maturity_date')->nullable();
             $table->string('mode');

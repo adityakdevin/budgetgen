@@ -41,6 +41,11 @@ class Investment extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function goal(): BelongsTo
+    {
+        return $this->belongsTo(Goal::class);
+    }
+
     protected function casts(): array
     {
         return [
