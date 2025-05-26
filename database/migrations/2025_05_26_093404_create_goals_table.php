@@ -8,19 +8,23 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('savings_goals', function (Blueprint $table) {
+        Schema::create('goals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('goal_name');
+            $table->string('goal_type')->nullable();
             $table->integer('target_amount');
-            $table->integer('saved_amount');
-            $table->date('target_date');
+            $table->integer('saved_amount')->default(0);
+            $table->date('target_date')->nullable();
+            $table->enum('priority', ['low', 'medium', 'high'])->default('medium');
+            $table->text('notes')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('savings_goals');
+        Schema::dropIfExists('goals');
     }
 };

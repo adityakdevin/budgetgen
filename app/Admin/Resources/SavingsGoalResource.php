@@ -3,7 +3,7 @@
 namespace App\Admin\Resources;
 
 use App\Admin\Resources\SavingsGoalResource\Pages;
-use App\Models\SavingsGoal;
+use App\Models\Goal;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,7 +12,7 @@ use Filament\Tables\Table;
 
 class SavingsGoalResource extends Resource
 {
-    protected static ?string $model = SavingsGoal::class;
+    protected static ?string $model = Goal::class;
 
     protected static ?string $navigationGroup = 'Categories & Budgets';
 
