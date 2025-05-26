@@ -2,13 +2,15 @@
 
 namespace App\Enums;
 
-enum CategoryType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum CategoryType: string implements HasLabel
 {
     case INCOME = 'income';
     case EXPENSE = 'expense';
     case INVESTMENT = 'investment';
 
-    public function label(): string
+    public function getLabel(): ?string
     {
         return match ($this) {
             self::INCOME => 'Income',

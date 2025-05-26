@@ -13,8 +13,10 @@ class CreditCard extends Model
     protected $fillable = [
         'user_id',
         'bank_name',
-        'credit_limit',
+        'card_type',
         'amount_due',
+        'total_limit',
+        'card_number'
     ];
 
     public function user(): BelongsTo

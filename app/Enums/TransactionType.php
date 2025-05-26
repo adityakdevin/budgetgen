@@ -2,14 +2,16 @@
 
 namespace App\Enums;
 
-enum TransactionType: string
+use Filament\Support\Contracts\HasLabel;
+
+enum TransactionType: string implements HasLabel
 {
     case INCOME = 'income';
     case EXPENSE = 'expense';
     case Investment = 'investment';
     case Debt = 'debt';
 
-    public function label(): string
+    public function getLabel(): string
     {
         return match ($this) {
             self::INCOME => 'Income',
