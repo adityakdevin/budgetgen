@@ -3,6 +3,7 @@
 namespace App\Admin\Resources;
 
 use App\Admin\Resources\InsuranceResource\Pages;
+use App\Enums\InsuranceType;
 use App\Models\Insurance;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -22,12 +23,9 @@ class InsuranceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
+                Forms\Components\Select::make('insurance_type')
+                    ->options(InsuranceType::class)
                     ->required(),
-                Forms\Components\TextInput::make('insurance_type')
-                    ->required()
-                    ->maxLength(255),
                 Forms\Components\TextInput::make('provider_name')
                     ->required()
                     ->maxLength(255),
@@ -40,19 +38,27 @@ class InsuranceResource extends Resource
                 Forms\Components\TextInput::make('premium_amount')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('payment_frequency')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('start_date')
+                Forms\Components\Select::make('payment_frequency')
+                    ->options([
+                        'monthly' => 'Monthly',
+                        'quarterly' => 'Quarterly',
+                        'half_yearly' => 'Half Yearly',
+                        'yearly' => 'Yearly',
+                    ])
                     ->required(),
-                Forms\Components\DatePicker::make('maturity_date'),
+                Forms\Components\DatePicker::make('start_date')
+                    ->native(false)
+                    ->required(),
+                Forms\Components\DatePicker::make('maturity_date')
+                    ->native(false),
                 Forms\Components\TextInput::make('vehicle_type')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('vehicle_number')
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_active')
+                    ->default(true)
                     ->required(),
-                Forms\Components\Textarea::make('note')
+                Forms\Components\RichEditor::make('note')
                     ->columnSpanFull(),
             ]);
     }
@@ -61,9 +67,6 @@ class InsuranceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('insurance_type')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('provider_name')
@@ -71,10 +74,10 @@ class InsuranceResource extends Resource
                 Tables\Columns\TextColumn::make('policy_number')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('sum_assured')
-                    ->numeric()
+                    ->money('INR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('premium_amount')
-                    ->numeric()
+                    ->money('INR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('payment_frequency')
                     ->searchable(),
@@ -83,10 +86,13 @@ class InsuranceResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('maturity_date')
                     ->date()
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 Tables\Columns\TextColumn::make('vehicle_type')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('vehicle_number')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_active')
                     ->boolean(),
