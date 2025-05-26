@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('savings_goals', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('goal_name');
             $table->integer('target_amount');
             $table->integer('saved_amount');

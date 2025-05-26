@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('tax_saving_plans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('plan_name');
             $table->integer('invested_amount');
             $table->integer('eligible_deduction');

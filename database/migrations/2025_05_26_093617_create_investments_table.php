@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('investments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('investment_type');
             $table->string('name');
             $table->string('amount_invested');

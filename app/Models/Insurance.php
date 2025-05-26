@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Insurance extends Model
 {
+    use HasUserScope;
+
     protected $fillable = [
         'user_id',
         'insurance_type',

@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Enums\TransactionType;
+use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Transaction extends Model
 {
+    use HasUserScope;
+
     protected $fillable = ['user_id', 'category_id', 'type', 'amount', 'transaction_date', 'note'];
 
     protected function casts(): array

@@ -2,20 +2,18 @@
 
 namespace App\Models;
 
-use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class SavingsGoal extends Model
+class CreditCardDues extends Model
 {
-    use HasUserScope;
-
     protected $fillable = [
         'user_id',
-        'goal_name',
-        'target_amount',
-        'saved_amount',
-        'target_date',
+        'credit_card_id',
+        'due_amount',
+        'due_date',
+        'is_emi',
+        'note',
     ];
 
     public function user(): BelongsTo
@@ -23,10 +21,16 @@ class SavingsGoal extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function creditCard(): BelongsTo
+    {
+        return $this->belongsTo(CreditCard::class);
+    }
+
     protected function casts(): array
     {
         return [
-            'target_date' => 'date',
+            'due_date' => 'date',
+            'is_emi' => 'boolean',
         ];
     }
 }

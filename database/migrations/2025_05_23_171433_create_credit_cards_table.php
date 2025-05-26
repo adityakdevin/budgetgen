@@ -10,10 +10,11 @@ return new class extends Migration
     {
         Schema::create('credit_cards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('bank_name');
-            $table->string('credit_limit');
-            $table->string('amount_due');
+            $table->string('card_type');
+            $table->string('card_number')->nullable();
+            $table->integer('total_limit');
             $table->timestamps();
         });
     }

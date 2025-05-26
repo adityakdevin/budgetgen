@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('insurances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('insurance_type');
             $table->string('provider_name');
             $table->string('policy_number');

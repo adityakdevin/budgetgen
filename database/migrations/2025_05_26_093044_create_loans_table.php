@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('loan_provider');
             $table->integer('principal_amount');
             $table->integer('emi_amount');
