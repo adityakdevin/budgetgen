@@ -21,19 +21,7 @@ class CategoryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('type')
-                    ->required()
-                    ->maxLength(255)
-                    ->default('expense'),
-                Forms\Components\TextInput::make('icon')
-                    ->maxLength(255),
-                Forms\Components\Select::make('parent_id')
-                    ->relationship('parent', 'name'),
-            ]);
+            ->schema(self::getFormFields());
     }
 
     public static function table(Table $table): Table
@@ -76,6 +64,21 @@ class CategoryResource extends Resource
     {
         return [
             'index' => Pages\ManageCategories::route('/'),
+        ];
+    }
+
+    public static function getFormFields(): array
+    {
+        return [
+            Forms\Components\Select::make('parent_id')
+                ->relationship('parent', 'name'),
+            Forms\Components\TextInput::make('name')
+                ->required()
+                ->maxLength(255),
+            Forms\Components\TextInput::make('type')
+                ->required()
+                ->maxLength(255)
+                ->default('expense'),
         ];
     }
 }

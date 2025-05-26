@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentFrequency;
+use App\Enums\PaymentMode;
+use App\Enums\Status;
 use App\Enums\TransactionType;
 use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
@@ -11,13 +14,36 @@ class Transaction extends Model
 {
     use HasUserScope;
 
-    protected $fillable = ['user_id', 'category_id', 'type', 'amount', 'transaction_date', 'note'];
+    protected $fillable = [
+        'user_id',
+        'category_id',
+        'subcategory_id',
+        'type',
+        'amount',
+        'transaction_date',
+        'counterparty',
+        'payment_mode',
+        'note',
+        'is_recurring',
+        'recurring_frequency',
+        'attachment_path',
+        'status',
+        'tags',
+        'linked_entity_type',
+        'linked_entity_id',
+    ];
 
     protected function casts(): array
     {
         return [
             'transaction_date' => 'datetime',
             'type' => TransactionType::class,
+            'payment_mode' => PaymentMode::class,
+            'recurring_frequency' => PaymentFrequency::class,
+            'status' => Status::class,
+            'amount' => 'integer',
+            'is_recurring' => 'boolean',
+            'tags' => 'json',
         ];
     }
 
@@ -28,6 +54,18 @@ class Transaction extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class)
+            ->whereNull('parent_id');
+    }
+
+    public function subcategory(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'subcategory_id', 'parent_id', 'id')
+            ->whereNotNull('parent_id');
+    }
+
+    public function linkedEntity(): BelongsTo
+    {
+        return $this->morphTo();
     }
 }
