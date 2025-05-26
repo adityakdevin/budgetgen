@@ -23,7 +23,9 @@ class InvestmentResource extends Resource
 {
     protected static ?string $model = Investment::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Financial Accounts';
+
+    protected static ?string $navigationIcon = 'heroicon-o-chart-bar';
 
     public static function form(Form $form): Form
     {
