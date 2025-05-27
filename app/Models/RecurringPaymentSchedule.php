@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\HasMoneyCasts;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class RecurringPaymentSchedule extends Model
 {
@@ -32,5 +33,10 @@ class RecurringPaymentSchedule extends Model
             'due_date' => 'date',
             'paid' => 'boolean',
         ];
+    }
+
+    public function transactions(): MorphMany
+    {
+        return $this->morphMany(Transaction::class, 'linked_entity');
     }
 }

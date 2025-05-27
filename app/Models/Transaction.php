@@ -10,6 +10,7 @@ use App\Traits\HasMoneyCasts;
 use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Transaction extends Model
 {
@@ -67,7 +68,7 @@ class Transaction extends Model
         return $this->belongsTo(Category::class, 'subcategory_id', 'id', 'subcategory_id');
     }
 
-    public function linkedEntity(): BelongsTo
+    public function linkedEntity(): MorphTo
     {
         return $this->morphTo();
     }

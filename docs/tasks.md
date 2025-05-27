@@ -5,8 +5,8 @@ marked with a checkbox that can be checked off when completed.
 
 ## Architecture & Design
 
-- [ ] Implement proper relationship between Transaction and RecurringPayment models
-- [ ] Create service classes to encapsulate business logic currently in models/controllers
+- [x] Implement proper relationship between Transaction and RecurringPayment models
+- [x] Create service classes to encapsulate business logic currently in models/controllers
 - [ ] Implement a repository pattern to abstract database operations
 - [ ] Develop a consistent event system for important actions (e.g., budget exceeded, recurring payment due)
 - [ ] Create a proper domain model with value objects for money handling

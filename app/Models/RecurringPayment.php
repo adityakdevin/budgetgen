@@ -6,6 +6,8 @@ use App\Traits\HasMoneyCasts;
 use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class RecurringPayment extends Model
 {
@@ -32,5 +34,15 @@ class RecurringPayment extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(RecurringPaymentSchedule::class);
+    }
+
+    public function transactions(): MorphMany
+    {
+        return $this->morphMany(Transaction::class, 'linked_entity');
     }
 }
