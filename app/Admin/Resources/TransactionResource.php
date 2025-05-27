@@ -12,6 +12,7 @@ use App\Models\Transaction;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\MaxWidth;
 use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -27,16 +28,12 @@ class TransactionResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Grid::make(3)->schema([
-                    Forms\Components\Select::make('type')
-                        ->options(TransactionType::class)
-                        ->required(),
+                    Forms\Components\Select::make('type')->options(TransactionType::class)->required(),
                     Forms\Components\Select::make('category_id')
-                        ->relationship('category', 'name')
-                        ->createOptionForm(CategoryResource::getFormFields())
-                        ->required()
-                        ->live(),
+                        ->relationship('category', 'name', modifyQueryUsing: fn ($query) => $query->whereNull('parent_id'))
+                        ->createOptionForm(CategoryResource::getFormFields())->required()->live(),
                     Forms\Components\Select::make('subcategory_id')
-                        ->relationship('subcategory', 'name')
+                        ->relationship('subcategory', 'name', modifyQueryUsing: fn ($query) => $query->whereNotNull('parent_id'))
                         ->createOptionForm(CategoryResource::getFormFields())
                         ->options(fn (Forms\Get $get) => $get('category_id')
                             ? Category::where('parent_id', $get('category_id'))
@@ -48,9 +45,7 @@ class TransactionResource extends Resource
                     ->prefixIcon('heroicon-o-currency-rupee')
                     ->stripCharacters(',')->numeric()
                     ->required(),
-                Forms\Components\DateTimePicker::make('transaction_date')
-                    ->native(false)
-                    ->default(now())
+                Forms\Components\DateTimePicker::make('transaction_date')->native(false)->default(now())
                     ->required(),
                 Forms\Components\Select::make('payment_mode')
                     ->options(PaymentMode::class),
@@ -73,40 +68,29 @@ class TransactionResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
-                    ->numeric()
+                    ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('subcategory_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('subcategory.name')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->searchable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('amount')
-                    ->numeric()
+                    ->money('INR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('transaction_date')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('counterparty')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('payment_mode')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_recurring')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('recurring_frequency')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('attachment_path')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('linked_entity_type')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('linked_entity_id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -117,8 +101,15 @@ class TransactionResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
-            ])
+                Tables\Filters\SelectFilter::make('type')->multiple()->options(TransactionType::class),
+                Tables\Filters\SelectFilter::make('status')->multiple()->options(Status::class),
+                Tables\Filters\SelectFilter::make('category')->attribute('category_id')->multiple()
+                    ->relationship('category', 'name')->searchable()
+                    ->preload(),
+                Tables\Filters\SelectFilter::make('subcategory')->attribute('subcategory_id')
+                    ->relationship('subcategory', 'name')->searchable()
+                    ->preload(),
+            ], layout: Tables\Enums\FiltersLayout::AboveContentCollapsible)->filtersFormWidth(MaxWidth::FourExtraLarge)
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),

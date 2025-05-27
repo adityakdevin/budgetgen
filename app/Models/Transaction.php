@@ -54,14 +54,12 @@ class Transaction extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class)
-            ->whereNull('parent_id');
+        return $this->belongsTo(Category::class);
     }
 
     public function subcategory(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'subcategory_id', 'parent_id', 'id')
-            ->whereNotNull('parent_id');
+        return $this->belongsTo(Category::class, 'subcategory_id', 'id', 'subcategory_id');
     }
 
     public function linkedEntity(): BelongsTo
