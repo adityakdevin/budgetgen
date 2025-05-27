@@ -16,7 +16,8 @@ return new class extends Migration
             $table->integer('target_amount');
             $table->integer('saved_amount')->default(0);
             $table->date('target_date')->nullable();
-            $table->enum('priority', ['low', 'medium', 'high'])->default('medium');
+            $table->string('priority')->default('medium');
+            $table->string('status')->default('in_progress');
             $table->text('notes')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();

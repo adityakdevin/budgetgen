@@ -2,15 +2,22 @@
 
 namespace App\Admin\Resources;
 
-use App\Admin\Resources\SavingsGoalResource\Pages;
+use App\Admin\Resources\GoalResource\Pages;
+use App\Admin\Resources\GoalResource\RelationManagers;
+use App\Enums\GoalType;
+use App\Enums\Priority;
+use App\Enums\Status;
 use App\Models\Goal;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class SavingsGoalResource extends Resource
+class GoalResource extends Resource
 {
     protected static ?string $model = Goal::class;
 
@@ -22,20 +29,37 @@ class SavingsGoalResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
-                Forms\Components\TextInput::make('goal_name')
+                Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('target_amount')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('saved_amount')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\DatePicker::make('target_date')
+                Forms\Components\Select::make('type')
+                    ->options(GoalType::class)
                     ->required(),
+                Forms\Components\TextInput::make('target_amount')
+                    ->mask(RawJs::make('$money($input)'))
+                    ->prefixIcon('heroicon-o-currency-rupee')
+                    ->stripCharacters(',')->numeric()
+                    ->required(),
+                Forms\Components\TextInput::make('saved_amount')
+                    ->label('Saved so far')
+                    ->mask(RawJs::make('$money($input)'))
+                    ->prefixIcon('heroicon-o-currency-rupee')
+                    ->stripCharacters(',')->numeric()
+                    ->default(0),
+                Forms\Components\DatePicker::make('target_date')
+                    ->native(false),
+                Forms\Components\Select::make('priority')
+                    ->options(Priority::class)
+                    ->required()
+                    ->default('medium'),
+                Forms\Components\Select::make('status')
+                    ->options(Status::class)
+                    ->required()
+                    ->default('in_progress'),
+                Forms\Components\Toggle::make('is_active')
+                    ->required(),
+                Forms\Components\RichEditor::make('notes')
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -43,10 +67,9 @@ class SavingsGoalResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('goal_name')
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('type')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('target_amount')
                     ->numeric()
@@ -57,6 +80,12 @@ class SavingsGoalResource extends Resource
                 Tables\Columns\TextColumn::make('target_date')
                     ->date()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('priority')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->searchable(),
+                Tables\Columns\IconColumn::make('is_active')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -83,7 +112,7 @@ class SavingsGoalResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageSavingsGoals::route('/'),
+            'index' => Pages\ManageGoals::route('/'),
         ];
     }
 }
