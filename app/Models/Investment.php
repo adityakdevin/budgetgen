@@ -6,13 +6,14 @@ use App\Enums\InvestmentMode;
 use App\Enums\InvestmentType;
 use App\Enums\PaymentFrequency;
 use App\Enums\TaxSection;
+use App\Traits\HasMoneyCasts;
 use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Investment extends Model
 {
-    use HasUserScope;
+    use HasMoneyCasts, HasUserScope;
 
     protected $fillable = [
         'user_id',
@@ -34,6 +35,12 @@ class Investment extends Model
         'goal_id',
         'is_auto_trackable',
         'tags',
+    ];
+
+    protected array $moneyFields = [
+        'amount_invested',
+        'current_value',
+        'expected_return_rate',
     ];
 
     public function user(): BelongsTo

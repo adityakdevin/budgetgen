@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasMoneyCasts;
 use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Insurance extends Model
 {
-    use HasUserScope;
+    use HasMoneyCasts, HasUserScope;
 
     protected $fillable = [
         'user_id',
@@ -24,6 +25,11 @@ class Insurance extends Model
         'vehicle_number',
         'is_active',
         'note',
+    ];
+
+    protected array $moneyFields = [
+        'sum_assured',
+        'premium_amount',
     ];
 
     public function user(): BelongsTo

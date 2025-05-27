@@ -2,17 +2,24 @@
 
 namespace App\Models;
 
+use App\Traits\HasMoneyCasts;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GoalContribution extends Model
 {
+    use HasMoneyCasts;
+
     protected $fillable = [
         'goal_id',
         'transaction_id',
         'amount',
         'contributed_at',
         'note',
+    ];
+
+    protected array $moneyFields = [
+        'amount',
     ];
 
     public function goal(): BelongsTo

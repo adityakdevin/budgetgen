@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\GoalType;
 use App\Enums\Priority;
 use App\Enums\Status;
+use App\Traits\HasMoneyCasts;
 use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Goal extends Model
 {
-    use HasUserScope;
+    use HasMoneyCasts, HasUserScope;
 
     protected $fillable = [
         'user_id',
@@ -25,6 +26,11 @@ class Goal extends Model
         'status',
         'notes',
         'is_active',
+    ];
+
+    protected array $moneyFields = [
+        'target_amount',
+        'saved_amount',
     ];
 
     public function user(): BelongsTo

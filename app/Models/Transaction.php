@@ -6,13 +6,14 @@ use App\Enums\PaymentFrequency;
 use App\Enums\PaymentMode;
 use App\Enums\Status;
 use App\Enums\TransactionType;
+use App\Traits\HasMoneyCasts;
 use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Transaction extends Model
 {
-    use HasUserScope;
+    use HasMoneyCasts, HasUserScope;
 
     protected $fillable = [
         'user_id',
@@ -31,6 +32,10 @@ class Transaction extends Model
         'tags',
         'linked_entity_type',
         'linked_entity_id',
+    ];
+
+    protected array $moneyFields = [
+        'amount',
     ];
 
     protected function casts(): array

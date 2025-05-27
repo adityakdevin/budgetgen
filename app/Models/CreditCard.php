@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasMoneyCasts;
 use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CreditCard extends Model
 {
-    use HasUserScope;
+    use HasMoneyCasts, HasUserScope;
 
     protected $fillable = [
         'user_id',
@@ -16,7 +17,12 @@ class CreditCard extends Model
         'card_type',
         'amount_due',
         'total_limit',
-        'card_number'
+        'card_number',
+    ];
+
+    protected array $moneyFields = [
+        'amount_due',
+        'total_limit',
     ];
 
     public function user(): BelongsTo

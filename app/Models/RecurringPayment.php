@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\HasMoneyCasts;
+use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RecurringPayment extends Model
 {
+    use HasMoneyCasts, HasUserScope;
+
     protected $fillable = [
         'user_id',
         'name',
@@ -18,6 +22,11 @@ class RecurringPayment extends Model
         'end_date',
         'auto_debit',
         'linked_credit_card_id',
+    ];
+
+    protected array $moneyFields = [
+        'amount',
+        'total_amount',
     ];
 
     public function user(): BelongsTo
