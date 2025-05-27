@@ -28,9 +28,9 @@ _For the complete roadmap see [Roadmap](#-roadmap)._
 
 | Layer             | Web (this repo)                                                         | Mobile (future)             |
 |-------------------|-------------------------------------------------------------------------|-----------------------------|
-| **Backend**       | Laravel 11 (PHP 8.3)                                                    | –                           |
-| **Database**      | MySQL 8.x                                                               | SQLite via `sqflite`        |
-| **Frontend**      | Blade, Alpine.js                                                        | Flutter (Material 3)        |
+| **Backend**       | Laravel 12 & FilamentPHP 3 (PHP 8.3)                                    | –                           |
+| **Database**      | Sqlite 8.x                                                              | SQLite via `sqflite`        |
+| **Frontend**      | Blade, Alpine.js, Livewire Tailwind                                     | Flutter (Material 3)        |
 | **State Mgmt**    | –                                                                       | Riverpod / `setState`       |
 | **Charts**        | [`consoletvs/charts`](https://github.com/ConsoleTVs/Charts) *(planned)* | `fl_chart` *(planned)*      |
 | **Auth**          | Laravel Auth (session)                                                  | Biometric + PIN *(planned)* |
@@ -45,7 +45,7 @@ app/
 │  ├─ Models\            # Eloquent models (Transaction, Category, Loan, …)
 │  ├─ Traits\            # HasMoney, HasUserScope, …
 │  ├─ Http/Controllers\
-│  ├─ Livewire/ & Filament/  # Admin UI components
+│  ├─ Admin/  # Admin UI components
 │  └─ Casts/             # MoneyCast, etc.
 ├─ database/
 │  ├─ migrations/
@@ -70,7 +70,6 @@ app/
 | Composer    | 2.x                                       |
 | MySQL       | 8.x (or MariaDB ≥10.6)                    |
 | Node / Bun  | Node 20 **or** Bun 1.1 (for asset builds) |
-| npm / pnpm  | optional – **Bun is preferred**           |
 
 ### 2. Installation
 
@@ -80,33 +79,80 @@ git clone https://github.com/adityakdevin/budgetgen.git
 cd budgetgen
 
 # 2. Install PHP deps
-composer install --optimize-autoloader --no-dev
+composer install --optimize-autoloader
 
 # 3. Copy env & generate key
 cp .env.example .env
 php artisan key:generate
 
 # 4. Configure database
-#   Edit DB_* vars in .env (MySQL)
-#   or set SQLITE_PATH for quick local setup
+#   Edit the .env file to set your database connection details:
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=budgetgen
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
 
 # 5. Run migrations & seeders
 php artisan migrate --seed
 
-# 6. Build front‑end assets (Bun)
+# 6. Build front‑end assets
+# Using Bun (recommended):
 bun install
-bun run dev        # or: bun run build --prod
+bun run dev        # For development
+# OR
+bun run build      # For production
+
+# Using npm (alternative):
+npm install
+npm run dev        # For development
+# OR
+npm run build      # For production
 
 # 7. Serve
 php artisan serve  # http://127.0.0.1:8000
 ```
 
-### 3. Running Tests
+### 3. Testing
+
+#### Running Tests
 
 ```bash
-php artisan test   # Unit + Feature tests
-bun run test       # JS tests (if any)
+# Run all tests
+php artisan test
+
+# Run specific test suites
+php artisan test --testsuite=Unit
+php artisan test --testsuite=Feature
+
+# Run a specific test file
+php artisan test tests/Unit/CategoryTest.php
+
+# Run a specific test method
+php artisan test --filter=test_category_can_be_created
 ```
+
+#### Testing Configuration
+
+The project uses PHPUnit for testing with the following configuration:
+
+- Tests are separated into Feature and Unit tests
+- SQLite in-memory database is used for testing
+- Environment variables are set in `phpunit.xml`
+
+#### Creating New Tests
+
+1. **Unit Tests**:
+    - Create test files in the `tests/Unit` directory
+    - Extend `PHPUnit\Framework\TestCase` for pure unit tests
+    - Extend `Tests\TestCase` for tests that need Laravel functionality
+    - Use `RefreshDatabase` trait if database access is required
+
+2. **Feature Tests**:
+    - Create test files in the `tests/Feature` directory
+    - Extend `Tests\TestCase`
+    - Use `RefreshDatabase` trait if database modifications are made
 
 ### 4. Environment Variables
 
@@ -135,9 +181,53 @@ MAIL_PASSWORD=null
 
 ---
 
+## 💻 Development Guidelines
+
+### Code Style
+
+- The project follows PSR-12 coding standards
+- Laravel naming conventions are used throughout the project
+- Use type hints and return types for all methods
+
+### Multi-Tenancy
+
+- The application implements multi-tenancy using a global `HasUserScope` trait
+- All models that should be scoped to the authenticated user should use this trait
+- Always ensure new models that contain user-specific data implement this trait
+
+### Money Handling
+
+- Money values are stored as integers (cents) in the database
+- The `HasMoney` trait and `MoneyCast` are used to handle money values
+- Always use these tools when dealing with monetary values to ensure consistency
+
+### Relationships
+
+- Follow Laravel's relationship naming conventions
+- Use type hints for relationship methods (e.g., `public function categories(): HasMany`)
+- Document relationships in PHPDoc comments
+
+### Debugging
+
+- Use Laravel's built-in debugging tools:
+  ```php
+  // Dump and continue
+  dump($variable);
+
+  // Dump and die
+  dd($variable);
+
+  // Dump, die, and debug
+  ddd($variable);
+  ```
+
+- For more advanced debugging, the project includes Laravel Debugbar
+
+---
+
 ## 🗺️ Roadmap
 
-### Phase 1 – Web MVP (Laravel + Blade)
+### Phase 1 – Web MVP (Laravel + FilamentPHP)
 
 - [x] Core transaction engine
 - [x] Category & sub‑category seeder
