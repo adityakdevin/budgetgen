@@ -1,61 +1,202 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# BudgetGen – Smart Finance Manager
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> **The open‑source personal finance platform built with Laravel & Flutter**
 
-## About Laravel
+BudgetGen helps individuals stay on top of their money by unifying income, expenses, credit cards, loans, investments
+and goals into one elegant dashboard.  
+This repository contains the **web application (Laravel)** – a solid foundation for the upcoming Flutter mobile app.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Key Features (Web MVP)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Module                      | Highlights                                                                                                       |
+|-----------------------------|------------------------------------------------------------------------------------------------------------------|
+| **Transactions**            | Unified table stores income, expenses, investments & debts; category / sub‑category tagging, notes & date labels |
+| **Recurring Payments**      | Handles EMIs, subscriptions, rent & any repeating charge; reminder scheduler built on Laravel Scheduler          |
+| **Credit & Loan Tracker**   | Track card limits, dues, loan principals, interest, and EMI progress                                             |
+| **Goals & Net Worth**       | Set savings targets, track assets vs. liabilities and view dynamic net‑worth widgets                             |
+| **Investments & Insurance** | SIPs, lump sum, stocks, LIC, health, term, motor & tax‑saving planner                                            |
+| **Multi‑Tenancy**           | Global `HasUserScope` trait restricts every query to the authenticated user                                      |
+| **Notifications (Planned)** | Email / push reminders for due dates, budget alerts & goal milestones                                            |
 
-## Learning Laravel
+_For the complete roadmap see [Roadmap](#-roadmap)._
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🛠️ Tech Stack
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Layer             | Web (this repo)                                                         | Mobile (future)             |
+|-------------------|-------------------------------------------------------------------------|-----------------------------|
+| **Backend**       | Laravel 11 (PHP 8.3)                                                    | –                           |
+| **Database**      | MySQL 8.x                                                               | SQLite via `sqflite`        |
+| **Frontend**      | Blade, Alpine.js                                                        | Flutter (Material 3)        |
+| **State Mgmt**    | –                                                                       | Riverpod / `setState`       |
+| **Charts**        | [`consoletvs/charts`](https://github.com/ConsoleTVs/Charts) *(planned)* | `fl_chart` *(planned)*      |
+| **Auth**          | Laravel Auth (session)                                                  | Biometric + PIN *(planned)* |
+| **Notifications** | Laravel Scheduler & mail                                                | Local + push *(planned)*    |
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 📂 Project Structure (Laravel)
 
-### Premium Partners
+```text
+app/
+│  ├─ Models\            # Eloquent models (Transaction, Category, Loan, …)
+│  ├─ Traits\            # HasMoney, HasUserScope, …
+│  ├─ Http/Controllers\
+│  ├─ Livewire/ & Filament/  # Admin UI components
+│  └─ Casts/             # MoneyCast, etc.
+├─ database/
+│  ├─ migrations/
+│  ├─ seeders/
+│  └─ factories/
+├─ resources/views/      # Blade templates
+├─ routes/
+│  ├─ web.php
+│  └─ api.php
+└─ tests/
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🚀 Getting Started
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1. Prerequisites
 
-## Code of Conduct
+| Requirement | Version                                   |
+|-------------|-------------------------------------------|
+| PHP         | **8.3+** (8.4 recommended)                |
+| Composer    | 2.x                                       |
+| MySQL       | 8.x (or MariaDB ≥10.6)                    |
+| Node / Bun  | Node 20 **or** Bun 1.1 (for asset builds) |
+| npm / pnpm  | optional – **Bun is preferred**           |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 2. Installation
 
-## Security Vulnerabilities
+```bash
+# 1. Clone & enter
+git clone https://github.com/adityakdevin/budgetgen.git
+cd budgetgen
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# 2. Install PHP deps
+composer install --optimize-autoloader --no-dev
 
-## License
+# 3. Copy env & generate key
+cp .env.example .env
+php artisan key:generate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# 4. Configure database
+#   Edit DB_* vars in .env (MySQL)
+#   or set SQLITE_PATH for quick local setup
+
+# 5. Run migrations & seeders
+php artisan migrate --seed
+
+# 6. Build front‑end assets (Bun)
+bun install
+bun run dev        # or: bun run build --prod
+
+# 7. Serve
+php artisan serve  # http://127.0.0.1:8000
+```
+
+### 3. Running Tests
+
+```bash
+php artisan test   # Unit + Feature tests
+bun run test       # JS tests (if any)
+```
+
+### 4. Environment Variables
+
+Refer to **`.env.example`** for the full list. Key settings:
+
+```dotenv
+APP_NAME="BudgetGen"
+APP_ENV=local
+APP_URL=http://localhost
+
+# Database
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=budgetgen
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Mail (for reminders)
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+```
+
+---
+
+## 🗺️ Roadmap
+
+### Phase 1 – Web MVP (Laravel + Blade)
+
+- [x] Core transaction engine
+- [x] Category & sub‑category seeder
+- [x] Recurring payments overhaul
+- [ ] Dashboard charts & budget alerts
+- [ ] Email reminders + queue workers
+
+### Phase 2 – Mobile App (Flutter)
+
+- [ ] Offline‑first SQLite sync
+- [ ] Biometric & PIN auth
+- [ ] Push notifications
+
+### Phase 3 – Extensions
+
+- [ ] Open Banking / account aggregation
+- [ ] AI spend insights & forecasts
+
+_See the [GitHub Projects board](https://github.com/your-org/budgetgen/projects) for detailed tasks._
+
+---
+
+## 🤝 Contributing
+
+1. **Fork** the repo & create your branch:
+
+   ```bash
+   git checkout -b feature/awesome
+   ```
+
+2. **Commit** your changes:
+
+   ```bash
+   git commit -m "feat: add awesome feature"
+   ```
+
+3. **Push** to the branch:
+
+   ```bash
+   git push origin feature/awesome
+   ```
+
+4. **Open a Pull Request** – please follow the [Conventional Commits](https://www.conventionalcommits.org/) spec & *
+   *PSR‑12** code style.
+
+We ❤️ issues & PRs that improve docs, fix bugs or add tests!
+
+---
+
+## 📝 License
+
+Distributed under the **MIT License**. See `LICENSE` for more information.
+
+---
+
+## 📇 Contact & Community
+
+- **Project Lead:** [Aditya Kumar](mailto:contact@adityadev.in)
+- **Discussions:** [GitHub Discussions](https://github.com/your-org/budgetgen/discussions)
+- **Twitter:** [@adityakdevin](https://twitter.com/adityakdevin)
+
+> *"Track smarter, save faster, live better." – BudgetGen*
