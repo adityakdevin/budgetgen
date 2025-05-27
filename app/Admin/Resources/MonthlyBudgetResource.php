@@ -7,8 +7,10 @@ use App\Models\MonthlyBudget;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Validation\Rules\Unique;
 
 class MonthlyBudgetResource extends Resource
 {
@@ -22,21 +24,29 @@ class MonthlyBudgetResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
                 Forms\Components\Select::make('category_id')
-                    ->relationship('category', 'name')
+                    ->relationship('category', 'name', modifyQueryUsing: fn ($query) => $query->whereNull('parent_id'))
                     ->required(),
                 Forms\Components\TextInput::make('amount')
+                    ->mask(RawJs::make('$money($input)'))
+                    ->prefixIcon('heroicon-o-currency-rupee')
+                    ->stripCharacters(',')->numeric()
+                    ->required(),
+                Forms\Components\Select::make('month')
+                    ->options(collect(range(1, 12))
+                        ->mapWithKeys(fn ($m) => [$m => now()->month($m)->format('F')])
+                    )
+                    ->default(now()->month)
+                    ->required(),
+                Forms\Components\Select::make('year')
+                    ->options(collect(range(now()->year, now()->year + 3))
+                        ->mapWithKeys(fn ($y) => [$y => $y])
+                    )
+                    ->default(now()->year)
                     ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('month')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('year')
-                    ->required()
-                    ->numeric(),
+                    ->unique(modifyRuleUsing: function (Unique $rule, Forms\Get $get) {
+                        return $rule->where('category_id', $get('category_id'))->where('month', $get('month'));
+                    }),
             ]);
     }
 
@@ -44,14 +54,11 @@ class MonthlyBudgetResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('amount')
-                    ->numeric()
+                    ->money('INR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('month')
                     ->numeric()
