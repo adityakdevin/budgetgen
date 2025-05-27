@@ -44,7 +44,7 @@ class MonthlyBudgetResource extends Resource
                     )
                     ->default(now()->year)
                     ->required()
-                    ->unique(modifyRuleUsing: function (Unique $rule, Forms\Get $get) {
+                    ->unique(ignoreRecord: true, modifyRuleUsing: function (Unique $rule, Forms\Get $get) {
                         return $rule->where('category_id', $get('category_id'))->where('month', $get('month'));
                     }),
             ]);
@@ -61,7 +61,9 @@ class MonthlyBudgetResource extends Resource
                     ->money('INR')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('month')
-                    ->numeric()
+                    ->formatStateUsing(
+                        fn ($state) => now()->month($state)->format('F')
+                    )
                     ->sortable(),
                 Tables\Columns\TextColumn::make('year')
                     ->numeric()

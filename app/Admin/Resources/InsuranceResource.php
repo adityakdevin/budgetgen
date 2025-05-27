@@ -9,6 +9,7 @@ use App\Models\Insurance;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -34,11 +35,15 @@ class InsuranceResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('sum_assured')
-                    ->required()
-                    ->numeric(),
+                    ->mask(RawJs::make('$money($input)'))
+                    ->prefixIcon('heroicon-o-currency-rupee')
+                    ->stripCharacters(',')->numeric()->inputMode('decimal')
+                    ->minValue(0.1),
                 Forms\Components\TextInput::make('premium_amount')
-                    ->required()
-                    ->numeric(),
+                    ->mask(RawJs::make('$money($input)'))
+                    ->prefixIcon('heroicon-o-currency-rupee')
+                    ->stripCharacters(',')->numeric()->inputMode('decimal')
+                    ->minValue(0.1),
                 Forms\Components\Select::make('payment_frequency')
                     ->options(PaymentFrequency::class)
                     ->required(),
