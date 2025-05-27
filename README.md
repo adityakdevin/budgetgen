@@ -87,12 +87,12 @@ php artisan key:generate
 
 # 4. Configure database
 #   Edit the .env file to set your database connection details:
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=budgetgen
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
+DB_CONNECTION=sqlite
+#DB_HOST=127.0.0.1
+#DB_PORT=3306
+#DB_DATABASE=budgetgen
+#DB_USERNAME=your_username
+#DB_PASSWORD=your_password
 
 # 5. Run migrations & seeders
 php artisan migrate --seed
@@ -164,12 +164,12 @@ APP_ENV=local
 APP_URL=http://localhost
 
 # Database
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=budgetgen
-DB_USERNAME=root
-DB_PASSWORD=
+DB_CONNECTION=sqlite
+#DB_HOST=127.0.0.1
+#DB_PORT=3306
+#DB_DATABASE=budgetgen
+#DB_USERNAME=root
+#DB_PASSWORD=
 
 # Mail (for reminders)
 MAIL_MAILER=smtp
@@ -246,7 +246,7 @@ MAIL_PASSWORD=null
 - [ ] Open Banking / account aggregation
 - [ ] AI spend insights & forecasts
 
-_See the [GitHub Projects board](https://github.com/your-org/budgetgen/projects) for detailed tasks._
+_See the [GitHub Projects board](https://github.com/adityakdevin/budgetgen/projects) for detailed tasks._
 
 ---
 
@@ -286,7 +286,7 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 ## 📇 Contact & Community
 
 - **Project Lead:** [Aditya Kumar](mailto:contact@adityadev.in)
-- **Discussions:** [GitHub Discussions](https://github.com/your-org/budgetgen/discussions)
+- **Discussions:** [GitHub Discussions](https://github.com/adiyakdevin/budgetgen/discussions)
 - **Twitter:** [@adityakdevin](https://twitter.com/adityakdevin)
 
 > *"Track smarter, save faster, live better." – BudgetGen*
