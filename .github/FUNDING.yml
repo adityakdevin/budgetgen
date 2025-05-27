@@ -1,0 +1,15 @@
+# These are supported funding model platforms
+
+github: [adityakdevin]               # GitHub Sponsors username
+patreon: adityakdevin                 # Patreon username
+open_collective: budgetgen           # Open Collective project slug
+ko_fi: adityakdevin                     # Ko-fi username
+#tidelift: npm/budgetgen              # Tidelift platform-name/package-name
+#community_bridge: cloud-foundry      # Example, replace with your project name if applicable
+#liberapay: adityakdevin               # Liberapay username
+#issuehunt: adityakdevin                 # IssueHunt username
+#lfx_crowdfunding: budgetgen          # LFX project name
+#polar: adityakdevin                  # Polar username
+buy_me_a_coffee: adityakdevin           # Buy Me a Coffee username
+#thanks_dev: adityakdevin              # thanks.dev username
+custom: ['https://adityadev.in/support', 'https://paypal.me/adityakdevin']
