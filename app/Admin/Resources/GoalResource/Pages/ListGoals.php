@@ -3,11 +3,10 @@
 namespace App\Admin\Resources\GoalResource\Pages;
 
 use App\Admin\Resources\GoalResource;
-use App\Admin\Resources\GoalResource\RelationManagers;
 use Filament\Actions;
-use Filament\Resources\Pages\ManageRecords;
+use Filament\Resources\Pages\ListRecords;
 
-class ManageGoals extends ManageRecords
+class ListGoals extends ListRecords
 {
     protected static string $resource = GoalResource::class;
 
@@ -15,13 +14,6 @@ class ManageGoals extends ManageRecords
     {
         return [
             Actions\CreateAction::make(),
-        ];
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            RelationManagers\ContributionsRelationManager::class,
         ];
     }
 }

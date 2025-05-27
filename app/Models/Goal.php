@@ -8,6 +8,7 @@ use App\Enums\Status;
 use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Goal extends Model
 {
@@ -39,5 +40,19 @@ class Goal extends Model
             'type' => GoalType::class,
             'priority' => Priority::class,
         ];
+    }
+
+    public function contributions(): HasMany
+    {
+        return $this->hasMany(GoalContribution::class);
+    }
+
+    public function getProgressAttribute(): float
+    {
+        if ($this->target_amount <= 0) {
+            return 0;
+        }
+
+        return min(100, ($this->saved_amount / $this->target_amount) * 100);
     }
 }

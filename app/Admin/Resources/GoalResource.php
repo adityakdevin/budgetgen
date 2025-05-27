@@ -14,8 +14,6 @@ use Filament\Resources\Resource;
 use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class GoalResource extends Resource
 {
@@ -109,10 +107,19 @@ class GoalResource extends Resource
             ]);
     }
 
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\ContributionsRelationManager::class,
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageGoals::route('/'),
+            'index' => Pages\ListGoals::route('/'),
+            'create' => Pages\CreateGoal::route('/create'),
+            'edit' => Pages\EditGoal::route('/{record}/edit'),
         ];
     }
 }
