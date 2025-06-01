@@ -38,7 +38,9 @@ class CreditCardResource extends Resource
 
                 Forms\Components\TextInput::make('total_limit')
                     ->required()
-                    ->numeric(),
+                    ->mask(RawJs::make('$money($input)'))
+                    ->prefixIcon('heroicon-o-currency-rupee')
+                    ->stripCharacters(',')->numeric()->inputMode('decimal'),
             ]);
     }
 

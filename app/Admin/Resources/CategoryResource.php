@@ -71,7 +71,7 @@ class CategoryResource extends Resource
     {
         return [
             Forms\Components\Select::make('parent_id')
-                ->relationship('parent', 'name'),
+                ->relationship('parent', 'name', modifyQueryUsing: fn ($query) => $query->whereNull('parent_id')),
             Forms\Components\TextInput::make('name')
                 ->required()
                 ->maxLength(255),
