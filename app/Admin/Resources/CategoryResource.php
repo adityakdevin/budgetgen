@@ -3,6 +3,7 @@
 namespace App\Admin\Resources;
 
 use App\Admin\Resources\CategoryResource\Pages;
+use App\Enums\CategoryType;
 use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -31,8 +32,6 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('type')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('icon')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('parent.name')
                     ->numeric()
@@ -75,9 +74,9 @@ class CategoryResource extends Resource
             Forms\Components\TextInput::make('name')
                 ->required()
                 ->maxLength(255),
-            Forms\Components\TextInput::make('type')
+            Forms\Components\Select::make('type')
+                ->options(CategoryType::class)
                 ->required()
-                ->maxLength(255)
                 ->default('expense'),
         ];
     }

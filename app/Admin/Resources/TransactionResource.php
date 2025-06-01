@@ -86,9 +86,10 @@ class TransactionResource extends Resource
                 Tables\Columns\TextColumn::make('payment_mode')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_recurring')
-                    ->boolean(),
+                    ->boolean()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('recurring_frequency')
-                    ->searchable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
