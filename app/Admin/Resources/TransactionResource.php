@@ -68,6 +68,13 @@ class TransactionResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('transaction_date')
+                    ->label('Date')
+                    ->dateTime()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('amount')
+                    ->money('INR')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->searchable()
                     ->sortable(),
@@ -75,15 +82,11 @@ class TransactionResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type')
+                    ->sortable()
                     ->searchable()
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('amount')
-                    ->money('INR')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('transaction_date')
-                    ->dateTime()
-                    ->sortable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('payment_mode')
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\IconColumn::make('is_recurring')
                     ->boolean()
@@ -91,6 +94,7 @@ class TransactionResource extends Resource
                 Tables\Columns\TextColumn::make('recurring_frequency')
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('status')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
