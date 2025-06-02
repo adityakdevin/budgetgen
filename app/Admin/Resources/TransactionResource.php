@@ -56,7 +56,16 @@ class TransactionResource extends Resource
                 Forms\Components\Select::make('payment_mode')
                     ->options(PaymentMode::class),
                 Forms\Components\Select::make('status')
-                    ->options(Status::class)
+                    ->options([
+                        Status::PENDING->value => Status::PENDING->getLabel(),
+                        Status::COMPLETED->value => Status::COMPLETED->getLabel(),
+                        Status::FAILED->value => Status::FAILED->getLabel(),
+                        Status::REFUNDED->value => Status::REFUNDED->getLabel(),
+                        Status::SCHEDULED->value => Status::SCHEDULED->getLabel(),
+                        Status::IN_PROGRESS->value => Status::IN_PROGRESS->getLabel(),
+                        Status::CANCELLED->value => Status::CANCELLED->getLabel(),
+                    ])
+                    ->default(Status::COMPLETED)
                     ->required(),
                 Forms\Components\Toggle::make('is_recurring')
                     ->live()
