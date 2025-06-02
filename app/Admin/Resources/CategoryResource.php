@@ -70,14 +70,18 @@ class CategoryResource extends Resource
     {
         return [
             Forms\Components\Select::make('parent_id')
-                ->relationship('parent', 'name', modifyQueryUsing: fn ($query) => $query->whereNull('parent_id')),
-            Forms\Components\TextInput::make('name')
-                ->required()
-                ->maxLength(255),
+                ->relationship('parent', 'name', modifyQueryUsing: fn ($query) => $query->whereNull('parent_id'))
+                ->label('ss'.session('last_parent_category_id'))
+                ->default(session('last_parent_category_id')),
             Forms\Components\Select::make('type')
                 ->options(CategoryType::class)
                 ->required()
                 ->default('expense'),
+            Forms\Components\TextInput::make('name')
+                ->required()
+                ->unique(ignoreRecord: true, modifyRuleUsing: fn ($rule, Forms\Get $get) => $rule->where('parent_id', $get('parent_id')))
+                ->maxLength(255)
+                ->columnSpanFull(),
         ];
     }
 }

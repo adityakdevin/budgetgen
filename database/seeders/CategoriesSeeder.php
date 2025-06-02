@@ -21,6 +21,11 @@ class CategoriesSeeder extends Seeder
             ['name' => 'Entertainment', 'type' => 'expense'],
             ['name' => 'Utilities', 'type' => 'expense'],
             ['name' => 'Shopping', 'type' => 'expense'],
+            ['name' => 'Health & Medical', 'type' => 'expense'],
+            ['name' => 'Travel', 'type' => 'expense'],
+            ['name' => 'Education', 'type' => 'expense'],
+            ['name' => 'Gifts & Donations', 'type' => 'expense'],
+            ['name' => 'Miscellaneous', 'type' => 'expense'],
 
             // Investment
             ['name' => 'Mutual Funds', 'type' => 'investment'],
@@ -45,6 +50,11 @@ class CategoriesSeeder extends Seeder
             'Entertainment' => ['Movies', 'Subscriptions', 'Events', 'Games', 'Streaming Services'],
             'Utilities' => ['Electricity', 'Water', 'Internet', 'Mobile Bill', 'Gas Bill'],
             'Shopping' => ['Clothes', 'Electronics', 'Accessories', 'Gifts', 'Home Essentials'],
+            'Health & Medical' => ['Doctor Consultation', 'Medicines & Pharmacy', 'Diagnostics & Lab Tests', 'Hospitalization', 'Dental & Eye Care', 'Therapies & Rehab', 'Health Insurance', 'Gym & Wellness', 'Vaccinations & Preventive Care', 'Other'],
+            'Travel' => ['Flights', 'Accommodation', 'Local Transport', 'Food & Dining', 'Activities'],
+            'Education' => ['Tuition Fees', 'Books & Supplies', 'Online Courses', 'Workshops', 'Seminars'],
+            'Gifts & Donations' => ['Gifts', 'Charity', 'Donations', 'Festive Gifts', 'Special Occasions'],
+            'Miscellaneous' => ['Pet Care', 'Hobbies', 'Subscriptions', 'Personal Care', 'Unexpected Expenses'],
 
             // Investment
             'Mutual Funds' => ['Equity Funds', 'Debt Funds', 'Hybrid Funds', 'ELSS', 'Index Funds'],
