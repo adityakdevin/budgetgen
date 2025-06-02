@@ -46,7 +46,7 @@ class CategoriesSeeder extends Seeder
             'Investments' => ['Dividends', 'Interest Income', 'Capital Gains', 'Rental Income', 'Royalty'],
 
             // Expense
-            'Food & Dining' => ['Groceries', 'Restaurants', 'Snacks & Drinks', 'Home Delivery', 'Coffee Shops'],
+            'Food & Dining' => ['Groceries', 'Restaurants', 'Snacks & Drinks', 'Home Delivery', 'Coffee Shops', 'Street Food', 'Fast Food', 'Fine Dining', 'Tiffin Services', 'Fruits & Vegetables', 'Dairy Products', 'Packaged Items', 'Frozen Food', 'Organic Items'],
             'Transport' => ['Fuel', 'Taxi', 'Public Transport', 'Tolls & Parking', 'Vehicle Repairs'],
             'Entertainment' => ['Movies', 'Subscriptions', 'Events', 'Games', 'Streaming Services'],
             'Utilities' => ['Electricity', 'Water', 'Internet', 'Mobile Bill', 'Gas Bill'],
