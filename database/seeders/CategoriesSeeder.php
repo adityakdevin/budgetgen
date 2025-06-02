@@ -36,6 +36,7 @@ class CategoriesSeeder extends Seeder
             // Debt
             ['name' => 'Loan EMI', 'type' => 'debt'],
             ['name' => 'Credit Card Bill', 'type' => 'debt'],
+            ['name' => 'Personal Debts', 'type' => 'debt'],
         ];
 
         $subcategories = [
@@ -65,6 +66,7 @@ class CategoriesSeeder extends Seeder
             // Debt
             'Loan EMI' => ['Car Loan', 'Personal Loan', 'Education Loan', 'Wallet Loan', 'Home Loan'],
             'Credit Card Bill' => ['HDFC Card', 'SBI Card', 'ICICI Card', 'Axis Bank Card', 'Other Credit Card'],
+            'Personal Debts' => ['Lent', 'Borrowed', 'Received', 'Repaid'],
         ];
 
         foreach ($categories as $item) {
