@@ -6,12 +6,15 @@ use App\Enums\PaymentFrequency;
 use App\Enums\PaymentMode;
 use App\Enums\Status;
 use App\Enums\TransactionType;
+use App\Models\Scopes\LatestFirstScope;
 use App\Traits\HasMoneyCasts;
 use App\Traits\HasUserScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
+#[ScopedBy(LatestFirstScope::class)]
 class Transaction extends Model
 {
     use HasMoneyCasts, HasUserScope;
