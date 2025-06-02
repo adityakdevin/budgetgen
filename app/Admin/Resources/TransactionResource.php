@@ -28,10 +28,16 @@ class TransactionResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Grid::make(3)->schema([
-                    Forms\Components\Select::make('type')->options(TransactionType::class)->required(),
+                    Forms\Components\Select::make('type')->options(TransactionType::class)->required()->live(),
                     Forms\Components\Select::make('category_id')
+                        ->required()->live()
                         ->relationship('category', 'name', modifyQueryUsing: fn ($query) => $query->whereNull('parent_id'))
-                        ->createOptionForm(CategoryResource::getFormFields())->required()->live(),
+                        ->createOptionForm(CategoryResource::getFormFields())
+                        ->options(fn (Forms\Get $get) => $get('type')
+                            ? Category::where('type', $get('type'))
+                                ->whereNull('parent_id')
+                                ->pluck('name', 'id')
+                            : []),
                     Forms\Components\Select::make('subcategory_id')
                         ->relationship('subcategory', 'name', modifyQueryUsing: fn ($query) => $query->whereNotNull('parent_id'))
                         ->createOptionForm(CategoryResource::getFormFields())
