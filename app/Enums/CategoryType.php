@@ -9,6 +9,7 @@ enum CategoryType: string implements HasLabel
     case INCOME = 'income';
     case EXPENSE = 'expense';
     case INVESTMENT = 'investment';
+    case DEBT = 'debt';
 
     public function getLabel(): ?string
     {
@@ -16,6 +17,7 @@ enum CategoryType: string implements HasLabel
             self::INCOME => 'Income',
             self::EXPENSE => 'Expense',
             self::INVESTMENT => 'Investment',
+            self::DEBT => 'Debt',
         };
     }
 
@@ -25,6 +27,7 @@ enum CategoryType: string implements HasLabel
             self::INCOME => 'plus-circle',
             self::EXPENSE => 'minus-circle',
             self::INVESTMENT => 'chart-line',
+            self::DEBT => 'exclamation-triangle',
         };
     }
 }
