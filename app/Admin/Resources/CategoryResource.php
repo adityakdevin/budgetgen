@@ -34,7 +34,7 @@ class CategoryResource extends Resource
                 Tables\Columns\TextColumn::make('type')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('parent.name')
-                    ->numeric()
+                    ->visible(fn ($livewire) => $livewire->activeTab === 'subcategories')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

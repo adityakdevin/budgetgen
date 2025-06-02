@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Enums\CategoryType;
+use App\Models\Scopes\AlphabeticalOrderScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[ScopedBy(AlphabeticalOrderScope::class)]
 class Category extends Model
 {
     protected $fillable = ['name', 'type', 'parent_id'];
