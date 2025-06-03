@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\CardType;
 use App\Traits\HasMoneyCasts;
 use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CreditCard extends Model
 {
@@ -28,5 +30,17 @@ class CreditCard extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'card_type' => CardType::class,
+        ];
+    }
+
+    public function dues(): HasMany
+    {
+        return $this->hasMany(CreditCardDues::class);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Admin\Resources;
 
 use App\Admin\Resources\CreditCardResource\Pages;
+use App\Admin\Resources\CreditCardResource\RelationManagers\DuesRelationManager;
 use App\Enums\CardType;
 use App\Models\CreditCard;
 use Filament\Forms;
@@ -80,10 +81,19 @@ class CreditCardResource extends Resource
             ]);
     }
 
+    public static function getRelations(): array
+    {
+        return [
+            DuesRelationManager::class,
+        ];
+    }
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageCreditCards::route('/'),
+            'index' => Pages\ListCreditCards::route('/'),
+            'create' => Pages\CreateCreditCard::route('/create'),
+            'edit' => Pages\EditCreditCard::route('/{record}/edit'),
         ];
     }
 }
