@@ -34,4 +34,11 @@ class ManageTransactions extends ManageRecords
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('type', CategoryType::DEBT)),
         ];
     }
+
+    public function getHeaderWidgets(): array
+    {
+        return [
+            TransactionResource\Widgets\StatsOverview::class,
+        ];
+    }
 }
