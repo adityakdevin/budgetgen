@@ -147,4 +147,11 @@ class TransactionResource extends Resource
             'index' => Pages\ManageTransactions::route('/'),
         ];
     }
+
+    public static function getWidgets(): array
+    {
+        return [
+            TransactionResource\Widgets\StatsOverview::class,
+        ];
+    }
 }
