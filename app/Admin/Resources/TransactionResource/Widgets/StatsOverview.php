@@ -40,12 +40,14 @@ final class StatsOverview extends BaseWidget
         ];
     }
 
-    private function getTotalAmount($type, $status = null)
+    private function getTotalAmount($type, $status = null): float
     {
-        return DB::table('transactions')
+        $row = DB::table('transactions')
             ->where('type', $type)
             ->when($status, fn ($query, $status) => $query->where('status', $status))
             ->selectRaw('SUM(amount) / 100 as total')
-            ->value('total') ?? 0;
+            ->first('total');
+
+        return $row ? (float) $row->total : 0.0;
     }
 }
