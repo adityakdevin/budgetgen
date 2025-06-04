@@ -23,6 +23,9 @@ try {
             __DIR__.'/routes',
             __DIR__.'/tests',
         ])
+        ->withSkipPath(
+            __DIR__.'/bootstrap/cache'
+        )
         ->withSkip([
             AddOverrideAttributeToOverriddenMethodsRector::class,
             NullToStrictStringFuncCallArgRector::class,
