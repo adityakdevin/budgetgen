@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use App\Enums\CategoryType;
 use App\Models\Category;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -19,16 +20,16 @@ final class CategoryTest extends TestCase
     {
         $category = Category::create([
             'name' => 'Test Category',
-            'type' => 'expense',
+            'type' => CategoryType::EXPENSE,
         ]);
 
         $this->assertDatabaseHas('categories', [
             'name' => 'Test Category',
-            'type' => 'expense',
+            'type' => CategoryType::EXPENSE,
         ]);
 
         $this->assertEquals('Test Category', $category->name);
-        $this->assertEquals('expense', $category->type);
+        $this->assertEquals(CategoryType::EXPENSE, $category->type);
     }
 
     /**
@@ -38,12 +39,12 @@ final class CategoryTest extends TestCase
     {
         $parentCategory = Category::create([
             'name' => 'Parent Category',
-            'type' => 'expense',
+            'type' => CategoryType::EXPENSE,
         ]);
 
         $childCategory = Category::create([
             'name' => 'Child Category',
-            'type' => 'expense',
+            'type' => CategoryType::EXPENSE,
             'parent_id' => $parentCategory->id,
         ]);
 
