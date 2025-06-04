@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Resources\CreditCardResource\RelationManagers;
 
 use Filament\Forms;
@@ -9,7 +11,7 @@ use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class DuesRelationManager extends RelationManager
+final class DuesRelationManager extends RelationManager
 {
     protected static string $relationship = 'dues';
 

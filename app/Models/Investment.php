@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\InvestmentMode;
@@ -11,7 +13,7 @@ use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Investment extends Model
+final class Investment extends Model
 {
     use HasMoneyCasts, HasUserScope;
 

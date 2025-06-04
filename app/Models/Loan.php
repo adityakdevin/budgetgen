@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\LoanType;
@@ -9,7 +11,7 @@ use App\Traits\HasUserScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Loan extends Model
+final class Loan extends Model
 {
     use HasMoneyCasts, HasUserScope;
 
@@ -41,17 +43,6 @@ class Loan extends Model
         return $this->belongsTo(User::class);
     }
 
-    protected function casts(): array
-    {
-        return [
-            'next_emi_due' => 'date',
-            'start_date' => 'date',
-            'autopay' => 'boolean',
-            'status' => Status::class,
-            'type' => LoanType::class,
-        ];
-    }
-
     public function getEmiStatusAttribute(): string
     {
         if ($this->emis_paid >= $this->total_emis) {
@@ -78,5 +69,16 @@ class Loan extends Model
     public function getTotalDueAttribute(): int
     {
         return ($this->total_emis - $this->emis_paid) * $this->emi_amount;
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'next_emi_due' => 'date',
+            'start_date' => 'date',
+            'autopay' => 'boolean',
+            'status' => Status::class,
+            'type' => LoanType::class,
+        ];
     }
 }

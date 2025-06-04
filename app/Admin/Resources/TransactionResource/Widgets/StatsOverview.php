@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Resources\TransactionResource\Widgets;
 
 use App\Enums\CategoryType;
@@ -9,7 +11,7 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Number;
 
-class StatsOverview extends BaseWidget
+final class StatsOverview extends BaseWidget
 {
     protected static ?string $pollingInterval = null;
 

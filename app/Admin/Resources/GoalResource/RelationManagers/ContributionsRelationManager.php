@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Resources\GoalResource\RelationManagers;
 
 use Filament\Forms;
@@ -9,7 +11,7 @@ use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class ContributionsRelationManager extends RelationManager
+final class ContributionsRelationManager extends RelationManager
 {
     protected static string $relationship = 'contributions';
 

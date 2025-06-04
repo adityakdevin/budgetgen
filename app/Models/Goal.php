@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\GoalType;
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Goal extends Model
+final class Goal extends Model
 {
     use HasMoneyCasts, HasUserScope;
 
@@ -38,16 +40,6 @@ class Goal extends Model
         return $this->belongsTo(User::class);
     }
 
-    protected function casts(): array
-    {
-        return [
-            'target_date' => 'date',
-            'status' => Status::class,
-            'type' => GoalType::class,
-            'priority' => Priority::class,
-        ];
-    }
-
     public function contributions(): HasMany
     {
         return $this->hasMany(GoalContribution::class);
@@ -60,5 +52,15 @@ class Goal extends Model
         }
 
         return min(100, ($this->saved_amount / $this->target_amount) * 100);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'target_date' => 'date',
+            'status' => Status::class,
+            'type' => GoalType::class,
+            'priority' => Priority::class,
+        ];
     }
 }

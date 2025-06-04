@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Models\Scopes\LatestFirstScope;
@@ -10,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[ScopedBy(LatestFirstScope::class)]
-class CreditCardDues extends Model
+final class CreditCardDues extends Model
 {
     use HasMoneyCasts, HasUserScope;
 

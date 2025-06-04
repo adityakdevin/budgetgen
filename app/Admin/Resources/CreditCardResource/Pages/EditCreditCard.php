@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Resources\CreditCardResource\Pages;
 
 use App\Admin\Resources\CreditCardResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditCreditCard extends EditRecord
+final class EditCreditCard extends EditRecord
 {
     protected static string $resource = CreditCardResource::class;
 

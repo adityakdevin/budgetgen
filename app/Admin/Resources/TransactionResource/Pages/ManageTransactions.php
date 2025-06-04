@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Resources\TransactionResource\Pages;
 
 use App\Admin\Resources\TransactionResource;
@@ -9,16 +11,9 @@ use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Database\Eloquent\Builder;
 
-class ManageTransactions extends ManageRecords
+final class ManageTransactions extends ManageRecords
 {
     protected static string $resource = TransactionResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make(),
-        ];
-    }
 
     public function getTabs(): array
     {
@@ -39,6 +34,13 @@ class ManageTransactions extends ManageRecords
     {
         return [
             TransactionResource\Widgets\StatsOverview::class,
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make(),
         ];
     }
 }

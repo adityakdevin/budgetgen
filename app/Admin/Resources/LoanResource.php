@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Resources;
 
 use App\Admin\Resources\LoanResource\Pages;
@@ -14,7 +16,7 @@ use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class LoanResource extends Resource
+final class LoanResource extends Resource
 {
     protected static ?string $model = Loan::class;
 

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Resources\TransactionResource\Pages;
 
 use App\Admin\Resources\TransactionResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListTransactions extends ListRecords
+final class ListTransactions extends ListRecords
 {
     protected static string $resource = TransactionResource::class;
 

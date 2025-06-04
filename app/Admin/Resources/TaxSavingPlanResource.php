@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Resources;
 
 use App\Admin\Resources\TaxSavingPlanResource\Pages;
@@ -10,7 +12,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class TaxSavingPlanResource extends Resource
+final class TaxSavingPlanResource extends Resource
 {
     protected static ?string $model = TaxSavingPlan::class;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Enums\PaymentFrequency;
@@ -15,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 #[ScopedBy(LatestFirstScope::class)]
-class Transaction extends Model
+final class Transaction extends Model
 {
     use HasMoneyCasts, HasUserScope;
 
@@ -42,20 +44,6 @@ class Transaction extends Model
         'amount',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'transaction_date' => 'datetime',
-            'type' => TransactionType::class,
-            'payment_mode' => PaymentMode::class,
-            'recurring_frequency' => PaymentFrequency::class,
-            'status' => Status::class,
-            'amount' => 'integer',
-            'is_recurring' => 'boolean',
-            'tags' => 'json',
-        ];
-    }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -74,5 +62,19 @@ class Transaction extends Model
     public function linkedEntity(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'transaction_date' => 'datetime',
+            'type' => TransactionType::class,
+            'payment_mode' => PaymentMode::class,
+            'recurring_frequency' => PaymentFrequency::class,
+            'status' => Status::class,
+            'amount' => 'integer',
+            'is_recurring' => 'boolean',
+            'tags' => 'json',
+        ];
     }
 }

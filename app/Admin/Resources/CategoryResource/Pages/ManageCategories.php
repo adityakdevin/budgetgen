@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Resources\CategoryResource\Pages;
 
 use App\Admin\Resources\CategoryResource;
@@ -10,19 +12,9 @@ use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Session;
 
-class ManageCategories extends ManageRecords
+final class ManageCategories extends ManageRecords
 {
     protected static string $resource = CategoryResource::class;
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make()
-                ->after(function (Category $record) {
-                    Session::put('last_parent_category_id', $record->parent_id);
-                }),
-        ];
-    }
 
     public function getTabs(): array
     {
@@ -33,6 +25,16 @@ class ManageCategories extends ManageRecords
             'subcategories' => Tab::make()
                 ->label('Sub Categories')
                 ->modifyQueryUsing(fn (Builder $query) => $query->whereNotNull('parent_id')),
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Actions\CreateAction::make()
+                ->after(function (Category $record) {
+                    Session::put('last_parent_category_id', $record->parent_id);
+                }),
         ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Resources;
 
 use App\Admin\Resources\InvestmentResource\Pages;
@@ -19,7 +21,7 @@ use Filament\Support\RawJs;
 use Filament\Tables;
 use Filament\Tables\Table;
 
-class InvestmentResource extends Resource
+final class InvestmentResource extends Resource
 {
     protected static ?string $model = Investment::class;
 

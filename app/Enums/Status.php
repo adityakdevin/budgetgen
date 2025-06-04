@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums;
 
 use Filament\Support\Contracts\HasLabel;
@@ -17,6 +19,56 @@ enum Status: string implements HasLabel
     case ACTIVE = 'active';
     case CLOSED = 'closed';
     case DEFAULTED = 'defaulted';
+
+    public static function loanStatus(): array
+    {
+        return [
+            self::ACTIVE,
+            self::CLOSED,
+            self::DEFAULTED,
+        ];
+    }
+
+    public static function transactionStatus(): array
+    {
+        return [
+            self::CLEARED,
+            self::PENDING,
+            self::FAILED,
+            self::REFUNDED,
+            self::SCHEDULED,
+            self::IN_PROGRESS,
+            self::COMPLETED,
+            self::CANCELLED,
+        ];
+    }
+
+    public static function recurringPaymentStatus(): array
+    {
+        return [
+            self::ACTIVE,
+            self::CANCELLED,
+            self::COMPLETED,
+        ];
+    }
+
+    public static function goalStatus(): array
+    {
+        return [
+            self::ACTIVE,
+            self::CANCELLED,
+            self::COMPLETED,
+        ];
+    }
+
+    public static function investmentStatus(): array
+    {
+        return [
+            self::ACTIVE,
+            self::CANCELLED,
+            self::COMPLETED,
+        ];
+    }
 
     public function getLabel(): string
     {
@@ -67,55 +119,5 @@ enum Status: string implements HasLabel
             self::CLOSED => 'heroicon-o-stop',
             self::DEFAULTED => 'heroicon-o-ban',
         };
-    }
-
-    public static function loanStatus(): array
-    {
-        return [
-            self::ACTIVE,
-            self::CLOSED,
-            self::DEFAULTED,
-        ];
-    }
-
-    public static function transactionStatus(): array
-    {
-        return [
-            self::CLEARED,
-            self::PENDING,
-            self::FAILED,
-            self::REFUNDED,
-            self::SCHEDULED,
-            self::IN_PROGRESS,
-            self::COMPLETED,
-            self::CANCELLED,
-        ];
-    }
-
-    public static function recurringPaymentStatus(): array
-    {
-        return [
-            self::ACTIVE,
-            self::CANCELLED,
-            self::COMPLETED,
-        ];
-    }
-
-    public static function goalStatus(): array
-    {
-        return [
-            self::ACTIVE,
-            self::CANCELLED,
-            self::COMPLETED,
-        ];
-    }
-
-    public static function investmentStatus(): array
-    {
-        return [
-            self::ACTIVE,
-            self::CANCELLED,
-            self::COMPLETED,
-        ];
     }
 }

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 
-class CategoriesSeeder extends Seeder
+final class CategoriesSeeder extends Seeder
 {
     public function run(): void
     {

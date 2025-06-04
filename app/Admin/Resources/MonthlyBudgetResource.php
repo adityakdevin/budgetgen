@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin\Resources;
 
 use App\Admin\Resources\MonthlyBudgetResource\Pages;
@@ -12,7 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rules\Unique;
 
-class MonthlyBudgetResource extends Resource
+final class MonthlyBudgetResource extends Resource
 {
     protected static ?string $model = MonthlyBudget::class;
 
