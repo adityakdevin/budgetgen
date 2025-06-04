@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Admin\Resources\InvestmentResource\Pages;
 
 use App\Admin\Resources\InvestmentResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
 final class ManageInvestments extends ManageRecords
@@ -15,7 +15,7 @@ final class ManageInvestments extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

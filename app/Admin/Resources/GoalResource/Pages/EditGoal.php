@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Admin\Resources\GoalResource\Pages;
 
 use App\Admin\Resources\GoalResource;
-use Filament\Actions;
+use Filament\Actions\DeleteAction;
 use Filament\Resources\Pages\EditRecord;
 
 final class EditGoal extends EditRecord
@@ -15,7 +15,7 @@ final class EditGoal extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            DeleteAction::make(),
         ];
     }
 }

@@ -4,16 +4,27 @@ declare(strict_types=1);
 
 namespace App\Admin\Resources;
 
-use App\Admin\Resources\LoanResource\Pages;
+use App\Admin\Resources\LoanResource\Pages\ManageLoans;
 use App\Enums\LoanType;
 use App\Enums\Status;
 use App\Models\Loan;
 use Carbon\Carbon;
-use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Support\RawJs;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 final class LoanResource extends Resource
@@ -28,67 +39,67 @@ final class LoanResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('provider')
+                TextInput::make('provider')
                     ->required()
                     ->string()
                     ->maxLength(191),
-                Forms\Components\TextInput::make('account_no')
+                TextInput::make('account_no')
                     ->maxLength(255),
-                Forms\Components\Select::make('type')
+                Select::make('type')
                     ->options(LoanType::class)
                     ->required(),
-                Forms\Components\TextInput::make('principal_amount')
+                TextInput::make('principal_amount')
                     ->mask(RawJs::make('$money($input)'))
                     ->prefixIcon('heroicon-o-currency-rupee')
                     ->stripCharacters(',')->numeric()->inputMode('decimal')
                     ->minValue(0.1)
                     ->required(),
-                Forms\Components\TextInput::make('interest_rate')
+                TextInput::make('interest_rate')
                     ->required()
                     ->numeric()
                     ->minValue(0)
                     ->maxValue(100)
                     ->suffix('%')
                     ->helperText('Annual, reducing balance'),
-                Forms\Components\TextInput::make('emi_amount')
+                TextInput::make('emi_amount')
                     ->label('EMI Amount')
                     ->mask(RawJs::make('$money($input)'))
                     ->prefixIcon('heroicon-o-currency-rupee')
                     ->stripCharacters(',')->numeric()->inputMode('decimal')
                     ->minValue(0.1)
                     ->required()
-                    ->helperText(fn (Forms\Get $get) => $get('total_emis')
-                        ? "{$get('emis_paid')} / {$get('total_emis')} EMIs paid"
+                    ->helperText(fn (Get $get): ?string => $get('total_emis')
+                        ? sprintf('%s / %s EMIs paid', $get('emis_paid'), $get('total_emis'))
                         : null),
-                Forms\Components\TextInput::make('total_emis')
+                TextInput::make('total_emis')
                     ->label('Total EMIs')
                     ->reactive()
                     ->numeric(),
-                Forms\Components\TextInput::make('emis_paid')
+                TextInput::make('emis_paid')
                     ->label('EMIs Paid')
                     ->numeric()
                     ->reactive()
                     ->default(0),
-                Forms\Components\DatePicker::make('start_date')
+                DatePicker::make('start_date')
                     ->native(false)
                     ->default(today())
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, Forms\Set $set) => $set('next_emi_due', Carbon::parse($state)->addMonth()))
+                    ->afterStateUpdated(fn ($state, Set $set): mixed => $set('next_emi_due', Carbon::parse($state)->addMonth()))
                     ->required(),
-                Forms\Components\DatePicker::make('next_emi_due')
+                DatePicker::make('next_emi_due')
                     ->label('Next EMI Due')
                     ->native(false)
                     ->default(today()->addMonth())
                     ->required(),
-                Forms\Components\Toggle::make('autopay')
+                Toggle::make('autopay')
                     ->label('Auto Pay')
                     ->default(false)
                     ->helperText('Enable to automatically pay EMIs on due date'),
-                Forms\Components\Select::make('status')
+                Select::make('status')
                     ->options(Status::class)
                     ->required()
                     ->default('active'),
-                Forms\Components\RichEditor::make('notes')
+                RichEditor::make('notes')
                     ->columnSpanFull(),
             ]);
     }
@@ -97,42 +108,42 @@ final class LoanResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('provider')
+                TextColumn::make('provider')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('account_no')
+                TextColumn::make('account_no')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('principal_amount')
+                TextColumn::make('principal_amount')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('interest_rate')
+                TextColumn::make('interest_rate')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('emi_amount')
+                TextColumn::make('emi_amount')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('total_emis')
+                TextColumn::make('total_emis')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('emis_paid')
+                TextColumn::make('emis_paid')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('start_date')
+                TextColumn::make('start_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('next_emi_due')
+                TextColumn::make('next_emi_due')
                     ->date()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('autopay')
+                IconColumn::make('autopay')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -141,12 +152,12 @@ final class LoanResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -154,7 +165,7 @@ final class LoanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageLoans::route('/'),
+            'index' => ManageLoans::route('/'),
         ];
     }
 }

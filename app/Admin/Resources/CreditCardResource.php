@@ -4,15 +4,22 @@ declare(strict_types=1);
 
 namespace App\Admin\Resources;
 
-use App\Admin\Resources\CreditCardResource\Pages;
+use App\Admin\Resources\CreditCardResource\Pages\CreateCreditCard;
+use App\Admin\Resources\CreditCardResource\Pages\EditCreditCard;
+use App\Admin\Resources\CreditCardResource\Pages\ListCreditCards;
 use App\Admin\Resources\CreditCardResource\RelationManagers\DuesRelationManager;
 use App\Enums\CardType;
 use App\Models\CreditCard;
-use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\RawJs;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 final class CreditCardResource extends Resource
@@ -27,19 +34,19 @@ final class CreditCardResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('bank_name')
+                TextInput::make('bank_name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('card_type')
+                Select::make('card_type')
                     ->options(CardType::class)
                     ->required(),
-                Forms\Components\TextInput::make('card_number')
+                TextInput::make('card_number')
                     ->mask(RawJs::make(<<<'JS'
                         $input.startsWith('34') || $input.startsWith('37') ? '9999 999999 99999' : '9999 9999 9999 9999'
                     JS))
                     ->maxLength(255),
 
-                Forms\Components\TextInput::make('total_limit')
+                TextInput::make('total_limit')
                     ->required()
                     ->mask(RawJs::make('$money($input)'))
                     ->prefixIcon('heroicon-o-currency-rupee')
@@ -51,20 +58,20 @@ final class CreditCardResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('bank_name')
+                TextColumn::make('bank_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('card_type')
+                TextColumn::make('card_type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('card_number')
+                TextColumn::make('card_number')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('total_limit')
+                TextColumn::make('total_limit')
                     ->money('INR')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -73,12 +80,12 @@ final class CreditCardResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -93,9 +100,9 @@ final class CreditCardResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCreditCards::route('/'),
-            'create' => Pages\CreateCreditCard::route('/create'),
-            'edit' => Pages\EditCreditCard::route('/{record}/edit'),
+            'index' => ListCreditCards::route('/'),
+            'create' => CreateCreditCard::route('/create'),
+            'edit' => EditCreditCard::route('/{record}/edit'),
         ];
     }
 }

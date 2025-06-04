@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Admin\Resources\LoanResource\Pages;
 
 use App\Admin\Resources\LoanResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
 final class ManageLoans extends ManageRecords
@@ -15,7 +15,7 @@ final class ManageLoans extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

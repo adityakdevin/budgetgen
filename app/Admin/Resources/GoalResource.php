@@ -4,17 +4,28 @@ declare(strict_types=1);
 
 namespace App\Admin\Resources;
 
-use App\Admin\Resources\GoalResource\Pages;
-use App\Admin\Resources\GoalResource\RelationManagers;
+use App\Admin\Resources\GoalResource\Pages\CreateGoal;
+use App\Admin\Resources\GoalResource\Pages\EditGoal;
+use App\Admin\Resources\GoalResource\Pages\ListGoals;
+use App\Admin\Resources\GoalResource\RelationManagers\ContributionsRelationManager;
 use App\Enums\GoalType;
 use App\Enums\Priority;
 use App\Enums\Status;
 use App\Models\Goal;
-use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\RawJs;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 final class GoalResource extends Resource
@@ -29,36 +40,36 @@ final class GoalResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('type')
+                Select::make('type')
                     ->options(GoalType::class)
                     ->required(),
-                Forms\Components\TextInput::make('target_amount')
+                TextInput::make('target_amount')
                     ->mask(RawJs::make('$money($input)'))
                     ->prefixIcon('heroicon-o-currency-rupee')
                     ->stripCharacters(',')->numeric()
                     ->required(),
-                Forms\Components\TextInput::make('saved_amount')
+                TextInput::make('saved_amount')
                     ->label('Saved so far')
                     ->mask(RawJs::make('$money($input)'))
                     ->prefixIcon('heroicon-o-currency-rupee')
                     ->stripCharacters(',')->numeric()
                     ->default(0),
-                Forms\Components\DatePicker::make('target_date')
+                DatePicker::make('target_date')
                     ->native(false),
-                Forms\Components\Select::make('priority')
+                Select::make('priority')
                     ->options(Priority::class)
                     ->required()
                     ->default('medium'),
-                Forms\Components\Select::make('status')
+                Select::make('status')
                     ->options(Status::class)
                     ->required()
                     ->default('in_progress'),
-                Forms\Components\Toggle::make('is_active')
+                Toggle::make('is_active')
                     ->required(),
-                Forms\Components\RichEditor::make('notes')
+                RichEditor::make('notes')
                     ->columnSpanFull(),
             ]);
     }
@@ -67,30 +78,30 @@ final class GoalResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('target_amount')
+                TextColumn::make('target_amount')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('saved_amount')
+                TextColumn::make('saved_amount')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('target_date')
+                TextColumn::make('target_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('priority')
+                TextColumn::make('priority')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_active')
+                IconColumn::make('is_active')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -99,12 +110,12 @@ final class GoalResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -112,16 +123,16 @@ final class GoalResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagers\ContributionsRelationManager::class,
+            ContributionsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListGoals::route('/'),
-            'create' => Pages\CreateGoal::route('/create'),
-            'edit' => Pages\EditGoal::route('/{record}/edit'),
+            'index' => ListGoals::route('/'),
+            'create' => CreateGoal::route('/create'),
+            'edit' => EditGoal::route('/{record}/edit'),
         ];
     }
 }

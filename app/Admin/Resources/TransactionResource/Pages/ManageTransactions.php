@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Admin\Resources\TransactionResource\Pages;
 
 use App\Admin\Resources\TransactionResource;
+use App\Admin\Resources\TransactionResource\Widgets\StatsOverview;
 use App\Enums\CategoryType;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ManageRecords;
 use Illuminate\Database\Eloquent\Builder;
@@ -30,17 +31,17 @@ final class ManageTransactions extends ManageRecords
         ];
     }
 
-    public function getHeaderWidgets(): array
+    protected function getHeaderWidgets(): array
     {
         return [
-            TransactionResource\Widgets\StatsOverview::class,
+            StatsOverview::class,
         ];
     }
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

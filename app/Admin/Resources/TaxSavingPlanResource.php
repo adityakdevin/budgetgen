@@ -4,12 +4,18 @@ declare(strict_types=1);
 
 namespace App\Admin\Resources;
 
-use App\Admin\Resources\TaxSavingPlanResource\Pages;
+use App\Admin\Resources\TaxSavingPlanResource\Pages\ManageTaxSavingPlans;
 use App\Models\TaxSavingPlan;
-use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 final class TaxSavingPlanResource extends Resource
@@ -24,22 +30,22 @@ final class TaxSavingPlanResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
+                Select::make('user_id')
                     ->relationship('user', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('plan_name')
+                TextInput::make('plan_name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('invested_amount')
+                TextInput::make('invested_amount')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('eligible_deduction')
+                TextInput::make('eligible_deduction')
                     ->required()
                     ->numeric(),
-                Forms\Components\TextInput::make('financial_year')
+                TextInput::make('financial_year')
                     ->required()
                     ->numeric(),
-                Forms\Components\Textarea::make('note')
+                Textarea::make('note')
                     ->columnSpanFull(),
             ]);
     }
@@ -48,25 +54,25 @@ final class TaxSavingPlanResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('plan_name')
+                TextColumn::make('plan_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('invested_amount')
+                TextColumn::make('invested_amount')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('eligible_deduction')
+                TextColumn::make('eligible_deduction')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('financial_year')
+                TextColumn::make('financial_year')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -75,12 +81,12 @@ final class TaxSavingPlanResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -88,7 +94,7 @@ final class TaxSavingPlanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageTaxSavingPlans::route('/'),
+            'index' => ManageTaxSavingPlans::route('/'),
         ];
     }
 }

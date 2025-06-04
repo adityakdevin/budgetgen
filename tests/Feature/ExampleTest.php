@@ -11,11 +11,11 @@ final class ExampleTest extends TestCase
 {
     public function test_the_application_returns_a_successful_response(): void
     {
-        $response = $this->get('/');
+        $testResponse = $this->get('/');
 
-        $response->assertStatus(302);
+        $testResponse->assertStatus(302);
 
-        $response->assertRedirect('/admin');
+        $testResponse->assertRedirect('/admin');
 
         $this->assertTrue(true);
     }

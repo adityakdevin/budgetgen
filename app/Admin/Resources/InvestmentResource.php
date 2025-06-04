@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin\Resources;
 
-use App\Admin\Resources\InvestmentResource\Pages;
+use App\Admin\Resources\InvestmentResource\Pages\ManageInvestments;
 use App\Enums\InvestmentMode;
 use App\Enums\InvestmentType;
 use App\Enums\PaymentFrequency;
@@ -18,7 +18,12 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\RawJs;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 final class InvestmentResource extends Resource
@@ -67,47 +72,47 @@ final class InvestmentResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('investment_type')
+                TextColumn::make('investment_type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('provider')
+                TextColumn::make('provider')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('account_no')
+                TextColumn::make('account_no')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('amount_invested')
+                TextColumn::make('amount_invested')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('current_value')
+                TextColumn::make('current_value')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('expected_return_rate')
+                TextColumn::make('expected_return_rate')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('start_date')
+                TextColumn::make('start_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('maturity_date')
+                TextColumn::make('maturity_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('mode')
+                TextColumn::make('mode')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('frequency')
+                TextColumn::make('frequency')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_active')
+                IconColumn::make('is_active')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('tax_section')
+                TextColumn::make('tax_section')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('risk_level')
+                TextColumn::make('risk_level')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('goal_id')
+                TextColumn::make('goal_id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_auto_trackable')
+                IconColumn::make('is_auto_trackable')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -116,12 +121,12 @@ final class InvestmentResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -129,7 +134,7 @@ final class InvestmentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageInvestments::route('/'),
+            'index' => ManageInvestments::route('/'),
         ];
     }
 }

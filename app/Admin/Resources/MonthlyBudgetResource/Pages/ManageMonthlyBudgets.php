@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Admin\Resources\MonthlyBudgetResource\Pages;
 
 use App\Admin\Resources\MonthlyBudgetResource;
-use Filament\Actions;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
 final class ManageMonthlyBudgets extends ManageRecords
@@ -15,7 +15,7 @@ final class ManageMonthlyBudgets extends ManageRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

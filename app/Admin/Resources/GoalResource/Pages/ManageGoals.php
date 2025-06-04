@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Admin\Resources\GoalResource\Pages;
 
 use App\Admin\Resources\GoalResource;
-use App\Admin\Resources\GoalResource\RelationManagers;
-use Filament\Actions;
+use App\Admin\Resources\GoalResource\RelationManagers\ContributionsRelationManager;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
 
 final class ManageGoals extends ManageRecords
@@ -16,14 +16,14 @@ final class ManageGoals extends ManageRecords
     public static function getRelations(): array
     {
         return [
-            RelationManagers\ContributionsRelationManager::class,
+            ContributionsRelationManager::class,
         ];
     }
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            CreateAction::make(),
         ];
     }
 }

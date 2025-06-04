@@ -4,11 +4,18 @@ declare(strict_types=1);
 
 namespace App\Admin\Resources\GoalResource\RelationManagers;
 
-use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\RawJs;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 final class ContributionsRelationManager extends RelationManager
@@ -19,15 +26,15 @@ final class ContributionsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('amount')->mask(RawJs::make('$money($input)'))
+                TextInput::make('amount')->mask(RawJs::make('$money($input)'))
                     ->prefixIcon('heroicon-o-currency-rupee')
                     ->stripCharacters(',')->numeric()
                     ->required(),
-                Forms\Components\DatePicker::make('contributed_at')
+                DatePicker::make('contributed_at')
                     ->label('Date')->native(false)
                     ->maxDate(today())
                     ->default(now()),
-                Forms\Components\RichEditor::make('note')->columnSpanFull(),
+                RichEditor::make('note')->columnSpanFull(),
             ]);
     }
 
@@ -36,9 +43,9 @@ final class ContributionsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('amount')
             ->columns([
-                Tables\Columns\TextColumn::make('amount')
+                TextColumn::make('amount')
                     ->money('INR'),
-                Tables\Columns\TextColumn::make('contributed_at')
+                TextColumn::make('contributed_at')
                     ->date('d M Y')
                     ->label('Date'),
             ])
@@ -46,15 +53,15 @@ final class ContributionsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

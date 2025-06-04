@@ -4,11 +4,20 @@ declare(strict_types=1);
 
 namespace App\Admin\Resources\CreditCardResource\RelationManagers;
 
-use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Support\RawJs;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 final class DuesRelationManager extends RelationManager
@@ -19,24 +28,24 @@ final class DuesRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('min_due_amount')
+                TextInput::make('min_due_amount')
                     ->label('Minimum Due Amount')
                     ->mask(RawJs::make('$money($input)'))
                     ->prefixIcon('heroicon-o-currency-rupee')
                     ->stripCharacters(',')->numeric()->inputMode('decimal'),
-                Forms\Components\TextInput::make('due_amount')
+                TextInput::make('due_amount')
                     ->required()
                     ->mask(RawJs::make('$money($input)'))
                     ->prefixIcon('heroicon-o-currency-rupee')
                     ->stripCharacters(',')->numeric()->inputMode('decimal'),
-                Forms\Components\DatePicker::make('due_date')
+                DatePicker::make('due_date')
                     ->native(false)
                     ->required(),
-                Forms\Components\Toggle::make('is_emi')
+                Toggle::make('is_emi')
                     ->label('Is EMI?')
                     ->inlineLabel(false)
                     ->required(),
-                Forms\Components\RichEditor::make('note')
+                RichEditor::make('note')
                     ->columnSpanFull(),
             ]);
     }
@@ -46,24 +55,24 @@ final class DuesRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('creditCard.name')
+                TextColumn::make('creditCard.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('due_amount')
+                TextColumn::make('due_amount')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('due_date')
+                TextColumn::make('due_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('is_emi')
+                IconColumn::make('is_emi')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('note')
+                TextColumn::make('note')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -72,15 +81,15 @@ final class DuesRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                CreateAction::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }

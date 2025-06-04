@@ -4,15 +4,24 @@ declare(strict_types=1);
 
 namespace App\Admin\Resources;
 
-use App\Admin\Resources\InsuranceResource\Pages;
+use App\Admin\Resources\InsuranceResource\Pages\ManageInsurances;
 use App\Enums\InsuranceType;
 use App\Enums\PaymentFrequency;
 use App\Models\Insurance;
-use Filament\Forms;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Support\RawJs;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 final class InsuranceResource extends Resource
@@ -27,41 +36,41 @@ final class InsuranceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('insurance_type')
+                Select::make('insurance_type')
                     ->options(InsuranceType::class)
                     ->required(),
-                Forms\Components\TextInput::make('provider_name')
+                TextInput::make('provider_name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('policy_number')
+                TextInput::make('policy_number')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('sum_assured')
+                TextInput::make('sum_assured')
                     ->mask(RawJs::make('$money($input)'))
                     ->prefixIcon('heroicon-o-currency-rupee')
                     ->stripCharacters(',')->numeric()->inputMode('decimal')
                     ->minValue(0.1),
-                Forms\Components\TextInput::make('premium_amount')
+                TextInput::make('premium_amount')
                     ->mask(RawJs::make('$money($input)'))
                     ->prefixIcon('heroicon-o-currency-rupee')
                     ->stripCharacters(',')->numeric()->inputMode('decimal')
                     ->minValue(0.1),
-                Forms\Components\Select::make('payment_frequency')
+                Select::make('payment_frequency')
                     ->options(PaymentFrequency::class)
                     ->required(),
-                Forms\Components\DatePicker::make('start_date')
+                DatePicker::make('start_date')
                     ->native(false)
                     ->required(),
-                Forms\Components\DatePicker::make('maturity_date')
+                DatePicker::make('maturity_date')
                     ->native(false),
-                Forms\Components\TextInput::make('vehicle_type')
+                TextInput::make('vehicle_type')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('vehicle_number')
+                TextInput::make('vehicle_number')
                     ->maxLength(255),
-                Forms\Components\Toggle::make('is_active')
+                Toggle::make('is_active')
                     ->default(true)
                     ->required(),
-                Forms\Components\RichEditor::make('note')
+                RichEditor::make('note')
                     ->columnSpanFull(),
             ]);
     }
@@ -70,40 +79,40 @@ final class InsuranceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('insurance_type')
+                TextColumn::make('insurance_type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('provider_name')
+                TextColumn::make('provider_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('policy_number')
+                TextColumn::make('policy_number')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('sum_assured')
+                TextColumn::make('sum_assured')
                     ->money('INR')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('premium_amount')
+                TextColumn::make('premium_amount')
                     ->money('INR')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('payment_frequency')
+                TextColumn::make('payment_frequency')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('start_date')
+                TextColumn::make('start_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('maturity_date')
+                TextColumn::make('maturity_date')
                     ->date()
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
-                Tables\Columns\TextColumn::make('vehicle_type')
+                TextColumn::make('vehicle_type')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
-                Tables\Columns\TextColumn::make('vehicle_number')
+                TextColumn::make('vehicle_number')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_active')
+                IconColumn::make('is_active')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -112,12 +121,12 @@ final class InsuranceResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -125,7 +134,7 @@ final class InsuranceResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageInsurances::route('/'),
+            'index' => ManageInsurances::route('/'),
         ];
     }
 }

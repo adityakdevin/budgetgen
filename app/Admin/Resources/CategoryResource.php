@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace App\Admin\Resources;
 
-use App\Admin\Resources\CategoryResource\Pages;
+use App\Admin\Resources\CategoryResource\Pages\ManageCategories;
 use App\Enums\CategoryType;
 use App\Models\Category;
-use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
-use Filament\Tables;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 final class CategoryResource extends Resource
@@ -31,18 +37,18 @@ final class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('type')
+                TextColumn::make('type')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('parent.name')
-                    ->visible(fn ($livewire) => $livewire->activeTab === 'subcategories')
+                TextColumn::make('parent.name')
+                    ->visible(fn ($livewire): bool => $livewire->activeTab === 'subcategories')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -51,12 +57,12 @@ final class CategoryResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -64,24 +70,24 @@ final class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManageCategories::route('/'),
+            'index' => ManageCategories::route('/'),
         ];
     }
 
     public static function getFormFields(): array
     {
         return [
-            Forms\Components\Select::make('parent_id')
+            Select::make('parent_id')
                 ->relationship('parent', 'name', modifyQueryUsing: fn ($query) => $query->whereNull('parent_id'))
                 ->label('ss'.session('last_parent_category_id'))
                 ->default(session('last_parent_category_id')),
-            Forms\Components\Select::make('type')
+            Select::make('type')
                 ->options(CategoryType::class)
                 ->required()
                 ->default('expense'),
-            Forms\Components\TextInput::make('name')
+            TextInput::make('name')
                 ->required()
-                ->unique(ignoreRecord: true, modifyRuleUsing: fn ($rule, Forms\Get $get) => $rule->where('parent_id', $get('parent_id')))
+                ->unique(ignoreRecord: true, modifyRuleUsing: fn ($rule, Get $get) => $rule->where('parent_id', $get('parent_id')))
                 ->maxLength(255)
                 ->columnSpanFull(),
         ];

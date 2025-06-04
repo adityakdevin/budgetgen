@@ -12,7 +12,7 @@ trait HasMoneyCasts
     {
         $this->casts = array_merge(
             $this->casts,
-            array_map(fn ($field) => MoneyCast::class, array_flip($this->moneyFields()))
+            array_map(fn ($field): string => MoneyCast::class, array_flip($this->moneyFields()))
         );
     }
 

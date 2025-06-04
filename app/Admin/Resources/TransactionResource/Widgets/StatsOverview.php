@@ -40,7 +40,7 @@ final class StatsOverview extends BaseWidget
         ];
     }
 
-    private function getTotalAmount($type, $status = null): float
+    private function getTotalAmount(CategoryType $type, $status = null): float
     {
         $row = DB::table('transactions')
             ->where('type', $type)
