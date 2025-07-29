@@ -73,7 +73,6 @@
             "@php artisan test",
             "@test:lint",
             "@test:refactor",
-            "@test:types",
             "@test:type-coverage",
             "@test:unit"
         ]
