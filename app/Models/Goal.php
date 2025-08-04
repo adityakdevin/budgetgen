@@ -48,10 +48,10 @@ final class Goal extends Model
     public function getProgressAttribute(): float
     {
         if ($this->target_amount <= 0) {
-            return 0;
+            return 0.0;
         }
 
-        return min(100, ($this->saved_amount / $this->target_amount) * 100);
+        return min(100.0, ($this->saved_amount / $this->target_amount) * 100);
     }
 
     protected function casts(): array

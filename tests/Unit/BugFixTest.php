@@ -6,6 +6,7 @@ namespace Tests\Unit;
 
 use App\Enums\CategoryType;
 use App\Models\Category;
+use App\Models\Goal;
 use App\Models\Loan;
 use App\Models\Transaction;
 use App\Models\User;
@@ -119,5 +120,53 @@ final class BugFixTest extends TestCase
         // Test that subcategory relationship works
         $this->assertInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class, $transaction->subcategory());
         $this->assertEquals($subcategory->id, $transaction->subcategory->id);
+    }
+
+    /**
+     * Test that Goal progress calculation handles edge cases correctly.
+     */
+    public function test_goal_progress_calculation(): void
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        // Test zero target amount
+        $goal1 = Goal::create([
+            'name' => 'Zero Target Goal',
+            'type' => \App\Enums\GoalType::SHORT_TERM,
+            'target_amount' => 0,
+            'saved_amount' => 50.00,
+            'target_date' => now()->addYear(),
+            'priority' => \App\Enums\Priority::MEDIUM,
+            'status' => \App\Enums\Status::ACTIVE,
+        ]);
+
+        $this->assertEquals(0.0, $goal1->progress);
+
+        // Test normal progress calculation
+        $goal2 = Goal::create([
+            'name' => 'Normal Goal',
+            'type' => \App\Enums\GoalType::SHORT_TERM,
+            'target_amount' => 1000.00,
+            'saved_amount' => 250.00,
+            'target_date' => now()->addYear(),
+            'priority' => \App\Enums\Priority::MEDIUM,
+            'status' => \App\Enums\Status::ACTIVE,
+        ]);
+
+        $this->assertEquals(25.0, $goal2->progress);
+
+        // Test progress capped at 100%
+        $goal3 = Goal::create([
+            'name' => 'Over Target Goal',
+            'type' => \App\Enums\GoalType::SHORT_TERM,
+            'target_amount' => 1000.00,
+            'saved_amount' => 1500.00,
+            'target_date' => now()->addYear(),
+            'priority' => \App\Enums\Priority::MEDIUM,
+            'status' => \App\Enums\Status::ACTIVE,
+        ]);
+
+        $this->assertEquals(100.0, $goal3->progress);
     }
 }
