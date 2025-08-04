@@ -56,7 +56,7 @@ final class Transaction extends Model
 
     public function subcategory(): BelongsTo
     {
-        return $this->belongsTo(Category::class, 'subcategory_id', 'id', 'subcategory_id');
+        return $this->belongsTo(Category::class, 'subcategory_id');
     }
 
     public function linkedEntity(): MorphTo
@@ -72,7 +72,6 @@ final class Transaction extends Model
             'payment_mode' => PaymentMode::class,
             'recurring_frequency' => PaymentFrequency::class,
             'status' => Status::class,
-            'amount' => 'integer',
             'is_recurring' => 'boolean',
             'tags' => 'json',
         ];
