@@ -10,10 +10,10 @@ trait HasMoneyCasts
 {
     protected function initializeHasMoneyCasts(): void
     {
-        $this->casts = array_merge(
-            $this->casts,
-            array_map(fn ($field): string => MoneyCast::class, array_flip($this->moneyFields()))
-        );
+        $moneyFields = $this->moneyFields();
+        foreach ($moneyFields as $field) {
+            $this->casts[$field] = MoneyCast::class;
+        }
     }
 
     protected function moneyFields(): array
