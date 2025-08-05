@@ -79,7 +79,6 @@ final class CategoryResource extends Resource
         return [
             Select::make('parent_id')
                 ->relationship('parent', 'name', modifyQueryUsing: fn ($query) => $query->whereNull('parent_id'))
-                ->label('ss'.session('last_parent_category_id'))
                 ->default(session('last_parent_category_id')),
             Select::make('type')
                 ->options(CategoryType::class)
