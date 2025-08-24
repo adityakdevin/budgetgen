@@ -34,7 +34,6 @@ final class Loan extends Model
 
     protected array $moneyFields = [
         'principal_amount',
-        'interest_rate',
         'emi_amount',
     ];
 
