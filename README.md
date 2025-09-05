@@ -1,62 +1,82 @@
 # BudgetGen – Smart Finance Manager
 
-> **The open‑source personal finance platform built with Laravel & Flutter**
+> **The open‑source personal finance platform built with Laravel & FilamentPHP**
 
 BudgetGen helps individuals stay on top of their money by unifying income, expenses, credit cards, loans, investments
-and goals into one elegant dashboard.  
-This repository contains the **web application (Laravel)** – a solid foundation for the upcoming Flutter mobile app.
+and goals into one elegant dashboard. Built with modern Laravel 12 and FilamentPHP 4 for a powerful admin interface.
 
 ---
 
-## ✨ Key Features (Web MVP)
+## ✨ Key Features
 
-| Module                      | Highlights                                                                                                       |
-|-----------------------------|------------------------------------------------------------------------------------------------------------------|
-| **Transactions**            | Unified table stores income, expenses, investments & debts; category / sub‑category tagging, notes & date labels |
-| **Recurring Payments**      | Handles EMIs, subscriptions, rent & any repeating charge; reminder scheduler built on Laravel Scheduler          |
-| **Credit & Loan Tracker**   | Track card limits, dues, loan principals, interest, and EMI progress                                             |
-| **Goals & Net Worth**       | Set savings targets, track assets vs. liabilities and view dynamic net‑worth widgets                             |
-| **Investments & Insurance** | SIPs, lump sum, stocks, LIC, health, term, motor & tax‑saving planner                                            |
-| **Multi‑Tenancy**           | Global `HasUserScope` trait restricts every query to the authenticated user                                      |
-| **Notifications (Planned)** | Email / push reminders for due dates, budget alerts & goal milestones                                            |
+| Module                     | Highlights                                                                                                       |
+|----------------------------|------------------------------------------------------------------------------------------------------------------|
+| **Transactions**           | Unified table stores income, expenses, investments & debts; category / sub‑category tagging, notes & date labels |
+| **Recurring Payments**     | Handles EMIs, subscriptions, rent & any repeating charge with schedule tracking                                  |
+| **Credit Card Management** | Track card limits, dues, EMI payments with relationship-based due tracking                                       |
+| **Loan Tracking**          | Monitor loan principals, interest rates, EMI progress and payment schedules                                      |
+| **Goals & Contributions**  | Set savings targets with detailed contribution tracking and progress monitoring                                  |
+| **Investments**            | SIP, lump sum, stocks tracking with tax sections, risk levels, and goal linking                                  |
+| **Insurance Management**   | LIC, health, term, motor insurance tracking with premium schedules                                               |
+| **Tax Planning**           | Tax-saving plan management with deduction tracking                                                               |
+| **Monthly Budgets**        | Category-wise budget allocation and tracking                                                                     |
+| **Multi‑Tenancy**          | Global `HasUserScope` trait restricts every query to the authenticated user                                      |
+| **Admin Interface**        | Full-featured FilamentPHP 4 admin panel with advanced table management                                           |
 
-_For the complete roadmap see [Roadmap](#-roadmap)._
+_For detailed task tracking see [docs/tasks.md](docs/tasks.md)._
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Layer             | Web (this repo)                                                         | Mobile (future)             |
-|-------------------|-------------------------------------------------------------------------|-----------------------------|
-| **Backend**       | Laravel 12 & FilamentPHP 3 (PHP 8.3)                                    | –                           |
-| **Database**      | Sqlite 8.x                                                              | SQLite via `sqflite`        |
-| **Frontend**      | Blade, Alpine.js, Livewire Tailwind                                     | Flutter (Material 3)        |
-| **State Mgmt**    | –                                                                       | Riverpod / `setState`       |
-| **Charts**        | [`consoletvs/charts`](https://github.com/ConsoleTVs/Charts) *(planned)* | `fl_chart` *(planned)*      |
-| **Auth**          | Laravel Auth (session)                                                  | Biometric + PIN *(planned)* |
-| **Notifications** | Laravel Scheduler & mail                                                | Local + push *(planned)*    |
+| Component          | Technology                       | Version |
+|--------------------|----------------------------------|---------|
+| **Backend**        | Laravel Framework                | 12.28.1 |
+| **Admin UI**       | FilamentPHP                      | 4.0.7   |
+| **Frontend**       | Livewire + Alpine.js + Tailwind  | 3.6.4   |
+| **Database**       | SQLite                           | –       |
+| **PHP**            | PHP                              | 8.4.12  |
+| **Testing**        | Pest                             | 3.8.4   |
+| **Code Quality**   | Laravel Pint + Larastan + Rector | Latest  |
+| **Performance**    | Laravel Octane                   | 2.12.1  |
+| **Authentication** | Laravel Sanctum                  | 4.2.0   |
+| **Build Tools**    | Vite + Tailwind CSS              | 4.1.8   |
 
 ---
 
-## 📂 Project Structure (Laravel)
+## 📂 Project Structure
 
 ```text
 app/
-│  ├─ Models\            # Eloquent models (Transaction, Category, Loan, …)
-│  ├─ Traits\            # HasMoney, HasUserScope, …
-│  ├─ Http/Controllers\
-│  ├─ Admin/  # Admin UI components
-│  └─ Casts/             # MoneyCast, etc.
-├─ database/
-│  ├─ migrations/
-│  ├─ seeders/
-│  └─ factories/
-├─ resources/views/      # Blade templates
-├─ routes/
-│  ├─ web.php
-│  └─ api.php
-└─ tests/
+├─ Admin/                # FilamentPHP Resources and Pages
+│  └─ Resources/         # Admin CRUD interfaces for all models
+├─ Casts/                # Custom Eloquent casts (MoneyCast)
+├─ Enums/                # Type-safe enumerations
+├─ Http/Controllers/     # Web controllers
+├─ Models/               # Eloquent models with relationships
+│  └─ Scopes/            # Global query scopes
+├─ Providers/            # Service providers including FilamentPHP
+└─ Traits/               # Reusable model traits (HasUserScope, HasMoneyCasts)
+database/
+├─ factories/            # Model factories for testing
+├─ migrations/           # Database schema definitions
+└─ seeders/              # Sample data seeders
+tests/
+├─ Feature/              # Integration tests
+└─ Unit/                 # Unit tests
 ```
+
+### Database Schema
+
+The application uses a comprehensive database schema with 17+ tables managing:
+
+- **Core Financial Data**: Users, Transactions, Categories
+- **Credit Management**: Credit Cards, Credit Card Dues
+- **Loan Management**: Loans with EMI tracking
+- **Investment Tracking**: Investments with goal linking
+- **Planning Tools**: Goals, Goal Contributions, Monthly Budgets
+- **Insurance & Tax**: Insurance policies, Tax Saving Plans
+- **Automation**: Recurring Payments with Schedules
 
 ---
 
@@ -114,47 +134,46 @@ npm run build      # For production
 php artisan serve  # http://127.0.0.1:8000
 ```
 
-### 3. Testing
+### 3. Development Commands
 
-#### Running Tests
+The project includes helpful Composer scripts for development:
 
 ```bash
-# Run all tests
-php artisan test
+# Development server with concurrency (recommended)
+composer run dev          # Starts: server, queue, logs, vite
 
-# Run specific test suites
-php artisan test --testsuite=Unit
-php artisan test --testsuite=Feature
+# Code quality
+composer run lint         # Run Laravel Pint formatter
+composer run refactor     # Run Rector refactoring
+composer run test         # Run tests + lint + refactor checks
 
-# Run a specific test file
-php artisan test tests/Unit/CategoryTest.php
-
-# Run a specific test method
-php artisan test --filter=test_category_can_be_created
+# Testing
+php artisan test          # Run all tests (Pest framework)
+php artisan test --filter=CategoryTest  # Run specific tests
+php artisan test tests/Unit/             # Run unit tests only
+php artisan test tests/Feature/          # Run feature tests only
 ```
 
-#### Testing Configuration
+### 4. Testing Framework
 
-The project uses PHPUnit for testing with the following configuration:
+The project uses **Pest PHP** (not PHPUnit) for a more expressive testing experience:
 
-- Tests are separated into Feature and Unit tests
-- SQLite in-memory database is used for testing
-- Environment variables are set in `phpunit.xml`
+```php
+// Example Pest test
+it('can create a category', function () {
+    $category = Category::factory()->create();
+    
+    expect($category)->toBeInstanceOf(Category::class)
+        ->and($category->name)->not->toBeEmpty();
+});
+```
 
-#### Creating New Tests
+- Tests use SQLite in-memory database
+- Database is refreshed between tests
+- Feature tests cover FilamentPHP resources
+- Unit tests focus on model logic and relationships
 
-1. **Unit Tests**:
-    - Create test files in the `tests/Unit` directory
-    - Extend `PHPUnit\Framework\TestCase` for pure unit tests
-    - Extend `Tests\TestCase` for tests that need Laravel functionality
-    - Use `RefreshDatabase` trait if database access is required
-
-2. **Feature Tests**:
-    - Create test files in the `tests/Feature` directory
-    - Extend `Tests\TestCase`
-    - Use `RefreshDatabase` trait if database modifications are made
-
-### 4. Environment Variables
+### 5. Environment Variables
 
 Refer to **`.env.example`** for the full list. Key settings:
 
