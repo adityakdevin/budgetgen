@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Admin\Resources\Categories\Pages;
 
-use Filament\Schemas\Components\Tabs\Tab;
 use App\Admin\Resources\Categories\CategoryResource;
 use App\Models\Category;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Session;
 

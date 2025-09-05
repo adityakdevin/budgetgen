@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Admin\Resources\Transactions\Pages;
 
-use Filament\Schemas\Components\Tabs\Tab;
 use App\Admin\Resources\Transactions\TransactionResource;
 use App\Admin\Resources\Transactions\Widgets\StatsOverview;
 use App\Enums\CategoryType;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ManageRecords;
+use Filament\Schemas\Components\Tabs\Tab;
 use Illuminate\Database\Eloquent\Builder;
 
 final class ManageTransactions extends ManageRecords
