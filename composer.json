@@ -10,7 +10,7 @@
         "filament/filament": "^4.2.0",
         "laravel/boost": "^1.7.1",
         "laravel/framework": "^12.35.1",
-        "laravel/nightwatch": "^1.17.1",
+        "laravel/nightwatch": "^1.18.0",
         "laravel/octane": "^2.13.1",
         "laravel/sanctum": "^4.2.0",
         "laravel/tinker": "^2.10.1"
