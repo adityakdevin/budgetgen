@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7beb39742770476eaaca522def90e921",
+    "content-hash": "847afc9b3bc3df64aaba314b2d104ffb",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -9268,16 +9268,16 @@
         },
         {
             "name": "filament/upgrade",
-            "version": "v4.2.3",
+            "version": "v4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/upgrade.git",
-                "reference": "72f47ecdf4972f84085f300f19da04b9c835f60c"
+                "reference": "31b03a80a99e203ba0b7bfbfb9566974e0346be7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filamentphp/upgrade/zipball/72f47ecdf4972f84085f300f19da04b9c835f60c",
-                "reference": "72f47ecdf4972f84085f300f19da04b9c835f60c",
+                "url": "https://api.github.com/repos/filamentphp/upgrade/zipball/31b03a80a99e203ba0b7bfbfb9566974e0346be7",
+                "reference": "31b03a80a99e203ba0b7bfbfb9566974e0346be7",
                 "shasum": ""
             },
             "require": {
@@ -9311,7 +9311,7 @@
                 "issues": "https://github.com/filamentphp/filament/issues",
                 "source": "https://github.com/filamentphp/filament"
             },
-            "time": "2025-09-11T14:01:25+00:00"
+            "time": "2025-11-28T11:21:29+00:00"
         },
         {
             "name": "filp/whoops",
