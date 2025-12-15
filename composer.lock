@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "df65e07ff43d28426dd3478cd21ae36d",
+    "content-hash": "81d3207bd0ca6f7e0319a9cef852110f",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -9276,7 +9276,7 @@
         },
         {
             "name": "filament/upgrade",
-            "version": "v4.3.0",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filamentphp/upgrade.git",
