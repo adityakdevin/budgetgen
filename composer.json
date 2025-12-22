@@ -11,7 +11,7 @@
         "laravel/boost": "^1.8.5",
         "laravel/framework": "^12.40.2",
         "laravel/nightwatch": "^1.21.1",
-        "laravel/octane": "^2.13.2",
+        "laravel/octane": "^2.13.3",
         "laravel/sanctum": "^4.2.1",
         "laravel/tinker": "^2.10.2"
     },
