@@ -9,7 +9,7 @@
         "php": "^8.3",
         "filament/filament": "^4.3.1",
         "laravel/boost": "^1.8.7",
-        "laravel/framework": "^12.40.2",
+        "laravel/framework": "^12.44.0",
         "laravel/nightwatch": "^1.21.1",
         "laravel/octane": "^2.13.3",
         "laravel/sanctum": "^4.2.1",
