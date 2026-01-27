@@ -12,7 +12,7 @@
         "laravel/framework": "^12.44.0",
         "laravel/nightwatch": "^1.22.0",
         "laravel/octane": "^2.13.3",
-        "laravel/sanctum": "^4.2.1",
+        "laravel/sanctum": "^4.2.4",
         "laravel/tinker": "^2.11.0"
     },
     "require-dev": {
