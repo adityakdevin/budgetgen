@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "acd536d823aefe9eb83c03b082827d02",
+    "content-hash": "aabed5b79d15b9160b43db442787e8c2",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -2172,16 +2172,16 @@
         },
         {
             "name": "laravel/boost",
-            "version": "v2.0.1",
+            "version": "v2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/boost.git",
-                "reference": "59874334803197654c1e8de96547804465bbdd0c"
+                "reference": "00eede2041a9bac83eabbd3b3f16bd4aa91277c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/boost/zipball/59874334803197654c1e8de96547804465bbdd0c",
-                "reference": "59874334803197654c1e8de96547804465bbdd0c",
+                "url": "https://api.github.com/repos/laravel/boost/zipball/00eede2041a9bac83eabbd3b3f16bd4aa91277c9",
+                "reference": "00eede2041a9bac83eabbd3b3f16bd4aa91277c9",
                 "shasum": ""
             },
             "require": {
@@ -2234,7 +2234,7 @@
                 "issues": "https://github.com/laravel/boost/issues",
                 "source": "https://github.com/laravel/boost"
             },
-            "time": "2026-01-26T16:36:25+00:00"
+            "time": "2026-02-01T09:52:44+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2460,16 +2460,16 @@
         },
         {
             "name": "laravel/mcp",
-            "version": "v0.5.2",
+            "version": "v0.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/mcp.git",
-                "reference": "b9bdd8d6f8b547c8733fe6826b1819341597ba3c"
+                "reference": "39b9791b989927642137dd5b55dde0529f1614f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/mcp/zipball/b9bdd8d6f8b547c8733fe6826b1819341597ba3c",
-                "reference": "b9bdd8d6f8b547c8733fe6826b1819341597ba3c",
+                "url": "https://api.github.com/repos/laravel/mcp/zipball/39b9791b989927642137dd5b55dde0529f1614f9",
+                "reference": "39b9791b989927642137dd5b55dde0529f1614f9",
                 "shasum": ""
             },
             "require": {
@@ -2529,7 +2529,7 @@
                 "issues": "https://github.com/laravel/mcp/issues",
                 "source": "https://github.com/laravel/mcp"
             },
-            "time": "2025-12-19T19:32:34+00:00"
+            "time": "2026-01-26T10:25:21+00:00"
         },
         {
             "name": "laravel/nightwatch",
