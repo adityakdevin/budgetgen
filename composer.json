@@ -8,7 +8,7 @@
     "require": {
         "php": "^8.3",
         "filament/filament": "^4.5.2",
-        "laravel/boost": "^2.0.5",
+        "laravel/boost": "^2.1.5",
         "laravel/framework": "^12.44.0",
         "laravel/nightwatch": "^1.22.1",
         "laravel/octane": "^2.13.5",
